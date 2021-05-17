@@ -7,6 +7,7 @@ public class Flower {
     private int hp;
     private int x;
     private int y;
+    private boolean isPlayerPresent;
 
     public Flower(int x, int y) {
         this.type = "N";
@@ -14,6 +15,7 @@ public class Flower {
         this.hp = 12;
         this.x = x;
         this.y = y;
+        this.isPlayerPresent = false;
     }
 
     public String getType() {
@@ -40,7 +42,15 @@ public class Flower {
         this.hp = hp;
     }
 
+    public boolean isPlayerPresent() {
+        return isPlayerPresent;
+    }
+
+    public void setPlayerPresent(boolean playerPresent) {
+        isPlayerPresent = playerPresent;
+    }
+
     public String toString() {
-        return this.type + "/Age:" + this.age + "/Hp:" + this.hp;
+        return "\n" + this.type + "/Age:" + this.age + "/Hp:" + this.hp + (isPlayerPresent ? "\n*           *\n*     $     *\n*           *\n*************" : "\n*           *\n*           *\n*           *\n*************");
     }
 }

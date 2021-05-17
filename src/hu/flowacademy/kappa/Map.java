@@ -13,21 +13,20 @@ public class Map {
         //map[0][0] = '$';
     }
 
-    public void clearMap() {
-        for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[i].length; j++) {
-                if (map[i][j] == null)
-                    map[i][j] = ' ';
-            }
-        }
-        map[0][0] = '$';
-    }
+//    public void clearMap() {
+//        for (int i = 0; i < map.length; i++) {
+//            for (int j = 0; j < map[i].length; j++) {
+//                if (map[i][j] == null)
+//                    map[i][j] = ' ';
+//            }
+//        }
+//        map[0][0] = '$';
+//    }
 
     public void drawMap() {
         for (Object[] row : map) {
             System.out.println(Arrays.toString(row));
         }
-        System.out.println("Current position: " + player.getX() + " " + player.getY());
     }
 
     public void putFlowers() {
@@ -54,31 +53,70 @@ public class Map {
         }
     }
 
+    public void putPlayer() {
+
+        Flower start = (Flower) map[0][0];
+        start.setPlayerPresent(true);
+    }
+
     public void doCommand(String comm) {
         String str = comm;
 
         if (str.equals("LE")) {
             player.move("LE");
-            map[player.getX()][player.getY()] = '$';
-            map[player.getX() - 1][player.getY()] = ' ';
+            Flower temp = (Flower) map[player.getX()][player.getY()];
+            temp.setPlayerPresent(true);
+            Flower temp2 = (Flower) map[player.getX() - 1][player.getY()];
+            temp2.setPlayerPresent(false);
         }
         if (str.equals("FEL")) {
             player.move("FEL");
-            map[player.getX()][player.getY()] = '$';
-            map[player.getX() + 1][player.getY()] = ' ';
+            Flower temp = (Flower) map[player.getX()][player.getY()];
+            temp.setPlayerPresent(true);
+            Flower temp2 = (Flower) map[player.getX() + 1][player.getY()];
+            temp2.setPlayerPresent(false);
         }
         if (str.equals("JOBBRA")) {
             player.move("JOBBRA");
-            map[player.getX()][player.getY()] = '$';
-            map[player.getX()][player.getY() - 1] = ' ';
+            Flower temp = (Flower) map[player.getX()][player.getY()];
+            temp.setPlayerPresent(true);
+            Flower temp2 = (Flower) map[player.getX()][player.getY() - 1];
+            temp2.setPlayerPresent(false);
         }
         if (str.equals("BALRA")) {
             player.move("BALRA");
-            map[player.getX()][player.getY()] = '$';
-            map[player.getX()][player.getY() + 1] = ' ';
+            Flower temp = (Flower) map[player.getX()][player.getY()];
+            temp.setPlayerPresent(true);
+            Flower temp2 = (Flower) map[player.getX()][player.getY() + 1];
+            temp2.setPlayerPresent(false);
         }
     }
-}
 
+
+    //    public void doCommand(String comm) {
+//        String str = comm;
+//
+//        if (str.equals("LE")) {
+//            player.move("LE");
+//            map[player.getX()][player.getY()] = '$';
+//            map[player.getX() - 1][player.getY()] = ' ';
+//        }
+//        if (str.equals("FEL")) {
+//            player.move("FEL");
+//            map[player.getX()][player.getY()] = '$';
+//            map[player.getX() + 1][player.getY()] = ' ';
+//        }
+//        if (str.equals("JOBBRA")) {
+//            player.move("JOBBRA");
+//            map[player.getX()][player.getY()] = '$';
+//            map[player.getX()][player.getY() - 1] = ' ';
+//        }
+//        if (str.equals("BALRA")) {
+//            player.move("BALRA");
+//            map[player.getX()][player.getY()] = '$';
+//            map[player.getX()][player.getY() + 1] = ' ';
+//        }
+//    }
+}
 
 

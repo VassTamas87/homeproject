@@ -10,8 +10,10 @@ public class Main {
         //terkep.clearMap();
         terkep.putFlowers();
         terkep.putTropical();
+        terkep.putPlayer();
         terkep.drawMap();
         String str = scan.nextLine();
+
         while (!str.equals("KILÉP")) {
             terkep.doCommand(str);
             terkep.drawMap();
