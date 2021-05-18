@@ -2,9 +2,10 @@ package hu.flowacademy.kappa;
 
 import java.util.Scanner;
 
+
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         Scanner scan = new Scanner(System.in);
         Map terkep = new Map(8, 8);
         //terkep.clearMap();

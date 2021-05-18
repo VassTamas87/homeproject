@@ -58,6 +58,6 @@ public class Tropical extends Flower {
     }
 
     public String toString() {
-        return "\n" + this.type + "/Age:" + this.age + "/Hp:" + this.hp + (isPlayerPresent ? "\n*           *\n*     $     *\n*           *\n*************" : "\n*           *\n*           *\n*           *\n*************");
+        return this.type + "|Age:" + this.age + "|Hp:" + this.hp + (isPlayerPresent ? " █████ " : "       ") + "Bug:10";
     }
 }

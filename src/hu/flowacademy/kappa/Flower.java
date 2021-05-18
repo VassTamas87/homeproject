@@ -1,6 +1,8 @@
 package hu.flowacademy.kappa;
 
-public class Flower {
+;
+
+public class Flower<ANSI_BLACK_BACKGROUND, TEXT_YELLOW> {
 
     private String type;
     private int age;
@@ -50,7 +52,9 @@ public class Flower {
         isPlayerPresent = playerPresent;
     }
 
+
+
     public String toString() {
-        return "\n" + this.type + "/Age:" + this.age + "/Hp:" + this.hp + (isPlayerPresent ? "\n*           *\n*     $     *\n*           *\n*************" : "\n*           *\n*           *\n*           *\n*************");
+        return  this.type + "|Age:" + this.age + "|Hp:" + this.hp + (isPlayerPresent ? " █████ " : "       ") + "Bug:10";
     }
 }

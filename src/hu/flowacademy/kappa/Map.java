@@ -24,8 +24,18 @@ public class Map {
 //    }
 
     public void drawMap() {
-        for (Object[] row : map) {
-            System.out.println(Arrays.toString(row));
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < map.length; i++) {
+            sb = new StringBuilder();
+            for (int j = 0; j < map[i].length; j++) {
+                sb.append("|" + map[i][j] + "|     ");
+            }
+            System.out.println(sb);
+            System.out.println("|           {(#)}          |     |           {(#)}          |     |           {(#)}          |     |           {(#)}          |     |           {(#)}          |     |           {(#)}          |     |           {(#)}          |     |           {(#)}          |");
+            System.out.println("|             |            |     |             |            |     |             |            |     |             |            |     |             |            |     |             |            |     |             |            |     |             |            |");
+            System.out.println("|            \\|/           |     |            \\|/           |     |            \\|/           |     |            \\|/           |     |            \\|/           |     |            \\|/           |     |            \\|/           |     |            \\|/           |");
+            System.out.println("---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------");
+
         }
     }
 
