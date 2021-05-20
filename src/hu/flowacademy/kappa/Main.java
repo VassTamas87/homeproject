@@ -1,24 +1,11 @@
 package hu.flowacademy.kappa;
 
-import java.util.Scanner;
-
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
-        Scanner scan = new Scanner(System.in);
-        Map terkep = new Map(8, 8);
-        //terkep.clearMap();
-        terkep.putFlowers();
-        terkep.putTropical();
-        terkep.putPlayer();
-        terkep.drawMap();
-        String str = scan.nextLine();
+    public static void main(String[] args) throws IOException {
 
-        while (!str.equals("KILÉP")) {
-            terkep.doCommand(str);
-            terkep.drawMap();
-            str = scan.nextLine();
-        }
+        Game game = new Game();
     }
 }

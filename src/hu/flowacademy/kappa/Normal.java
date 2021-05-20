@@ -1,9 +1,10 @@
 package hu.flowacademy.kappa;
 
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class Tropical extends Flower {
+public class Normal extends Flower {
 
     private String type;
     private int age;
@@ -13,14 +14,14 @@ public class Tropical extends Flower {
     private boolean isPlayerPresent;
     private List<Zombi> zombiList;
 
-    public Tropical(int x, int y) {
+    public Normal(int x, int y) {
         super(x, y);
-        this.hp = super.getTROPICAL();
-        this.type = "T";
+        this.type = "N";
         this.age = 0;
-        this.isPlayerPresent = false;
+        this.hp = super.getNORMAL();
         this.x = x;
         this.y = y;
+        this.isPlayerPresent = false;
         this.zombiList = new ArrayList<>();
     }
 
@@ -54,42 +55,34 @@ public class Tropical extends Flower {
         this.zombiList = zombiList;
     }
 
-    @Override
     public String getType() {
         return type;
     }
 
-    @Override
     public void setType(String type) {
         this.type = type;
     }
 
-    @Override
     public int getAge() {
         return age;
     }
 
-    @Override
     public void setAge(int age) {
         this.age = age;
     }
 
-    @Override
     public int getHp() {
         return hp;
     }
 
-    @Override
     public void setHp(int hp) {
         this.hp = hp;
     }
 
-    @Override
     public boolean isPlayerPresent() {
         return isPlayerPresent;
     }
 
-    @Override
     public void setPlayerPresent(boolean playerPresent) {
         isPlayerPresent = playerPresent;
     }

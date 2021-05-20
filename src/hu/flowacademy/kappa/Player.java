@@ -29,24 +29,4 @@ public class Player {
     public void setY(int y) {
         this.y = y;
     }
-
-    public boolean move(String direction) throws ArrayIndexOutOfBoundsException {
-        if (direction.equals("LE") && (x + 1) < mapHeight) {
-            x += 1;
-            return true;
-        }
-        if (direction.equals("FEL") && (x - 1) >= 0) {
-            x -= 1;
-            return true;
-        }
-        if (direction.equals("JOBBRA") && (y + 1) < mapLength) {
-            y += 1;
-            return true;
-        }
-        if (direction.equals("BALRA") && (y - 1) >= 0) {
-            y -= 1;
-            return true;
-        }
-        return false;
-    }
 }
