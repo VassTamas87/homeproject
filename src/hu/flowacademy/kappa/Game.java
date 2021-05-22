@@ -159,7 +159,8 @@ public class Game<Public> implements ActionListener {
 
     public void movePlayer(int i, int j) {
         buttons[i][j].setFont(new Font("MV Boli", Font.BOLD, 14));
-        map[i][j].setHp(map[i][j].getHp() - 1);
+        map[i][j].getZombiList().clear();
+        setMapElements(i, j);
         if (map[i][j].getHp() > 0) {
             setProperties(i, j);
         }
