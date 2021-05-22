@@ -139,7 +139,7 @@ public class Game<Public> implements ActionListener {
     public void setMapElements(int i, int j) {
         if (map[i][j].getType().equals("Sunflower")) {
             if (map[i][j].getZombiList().size() > 0) {
-                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) (Math.random() * images.zombiePics.length - 1)]));
+                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) Math.floor(Math.random() * images.zombiePics.length)]));
             } else {
                 buttons[i][j].setIcon(new ImageIcon(images.getImg1()));
             }
@@ -148,7 +148,7 @@ public class Game<Public> implements ActionListener {
         }
         if (map[i][j].getType().equals("Gatling Pea")) {
             if (map[i][j].getZombiList().size() > 0) {
-                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) (Math.random() * images.zombiePics.length - 1)]));
+                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) Math.floor(Math.random() * images.zombiePics.length)]));
             } else {
                 buttons[i][j].setIcon(new ImageIcon(images.getImg2()));
             }

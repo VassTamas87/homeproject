@@ -49,10 +49,15 @@ public class Images {
     Image img39 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi35.png"));
     Image img40 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi36.png"));
     Image img41 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi37.png"));
+    Image img42 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi38.png"));
+    Image img43 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi39.png"));
+    Image img44 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi40.png"));
+    Image img45 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi41.png"));
+    Image img46 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/zombies/zombi42.png"));
 
     Image[] zombiePics = {img5, img6, img7, img8, img9, img10, img11, img12, img13, img14, img15, img16, img17, img18,
             img19, img20, img21, img22, img23, img24, img25, img26, img27, img28, img29, img30, img31, img32, img33, img34, img35,
-            img36, img37, img38, img39, img40, img41};
+            img36, img37, img38, img39, img40, img41, img42, img43, img44, img45, img46};
 
     public Images() throws IOException {
     }
