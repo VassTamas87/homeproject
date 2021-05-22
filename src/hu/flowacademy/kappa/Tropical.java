@@ -16,7 +16,7 @@ public class Tropical extends Flower {
     public Tropical(int x, int y) {
         super(x, y);
         this.hp = super.getTROPICAL();
-        this.type = "T";
+        this.type = super.getGATLING();
         this.age = 0;
         this.isPlayerPresent = false;
         this.x = x;

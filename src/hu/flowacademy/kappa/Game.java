@@ -29,9 +29,9 @@ public class Game<Public> implements ActionListener {
     int movesLeft = 12;
 
     Game() throws IOException {
-        putFlowers(map);
-        putTropical(map);
-        putZombies(map);
+        putFlowers();
+        putTropical();
+        putZombies();
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
@@ -85,7 +85,7 @@ public class Game<Public> implements ActionListener {
                         if (movesLeft == 0) {
                             movesLeft = 12;
                             dayCounter++;
-                            gettingOlder(map);
+                            gettingOlder();
                         }
                         textfield.setText("Kertész és virágok" + " --- Day: " + dayCounter + "/Moves Left: " + movesLeft);
                     }
@@ -94,7 +94,7 @@ public class Game<Public> implements ActionListener {
         }
     }
 
-    public void putFlowers(Flower[][] terkep) {
+    public void putFlowers() {
         int counter = 0;
         while (counter < 49) {
             int x = (int) Math.floor(Math.random() * 8);
@@ -106,7 +106,7 @@ public class Game<Public> implements ActionListener {
         }
     }
 
-    public void putTropical(Flower[][] terkep) {
+    public void putTropical() {
         int counter = 0;
         while (counter < 15) {
             int x = (int) Math.floor(Math.random() * 8);
@@ -118,7 +118,7 @@ public class Game<Public> implements ActionListener {
         }
     }
 
-    public void putZombies(Flower[][] terkep) {
+    public void putZombies() {
         int counter = 0;
         while (counter < 7) {
             int x = (int) Math.floor(Math.random() * 8);
@@ -131,7 +131,7 @@ public class Game<Public> implements ActionListener {
     }
 
     public void setProperties(int i, int j) {
-        buttons[i][j].setText("<html>Hp: " + map[i][j].getHp() + "<br/>" + "Age: " + map[i][j].getAge() + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
+        buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp() + "<br/>" + "Age: " + map[i][j].getAge() + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
     }
 
     public void setGreenField() {
@@ -147,7 +147,7 @@ public class Game<Public> implements ActionListener {
     }
 
     public void setMapElements(int i, int j) {
-        if (map[i][j].getType().equals("N")) {
+        if (map[i][j].getType().equals("Sunflower")) {
             if (map[i][j].getZombiList().size() > 0) {
                 buttons[i][j].setIcon(new ImageIcon(img6));
             } else {
@@ -156,7 +156,7 @@ public class Game<Public> implements ActionListener {
             buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
             setProperties(i, j);
         }
-        if (map[i][j].getType().equals("T")) {
+        if (map[i][j].getType().equals("Gatling Pea")) {
             if (map[i][j].getZombiList().size() > 0) {
                 buttons[i][j].setIcon(new ImageIcon(img5));
             } else {
@@ -179,10 +179,10 @@ public class Game<Public> implements ActionListener {
         setGreenField();
     }
 
-    public void gettingOlder(Flower[][] terkep) {
+    public void gettingOlder() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                terkep[i][j].setAge(terkep[i][j].getAge() + 1);
+                map[i][j].setAge(map[i][j].getAge() + 1);
                 if (map[i][j].getHp() > 0) {
                     setProperties(i, j);
                 }

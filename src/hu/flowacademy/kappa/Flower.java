@@ -14,13 +14,31 @@ public abstract class Flower {
     private List<Zombi> zombiList;
 
     public Flower(int x, int y) {
-        this.type = "N";
         this.age = 0;
         this.x = x;
         this.y = y;
         this.isPlayerPresent = false;
         this.zombiList = new ArrayList<>();
     }
+
+    public String getSUNFLOWER() {
+        return SUNFLOWER;
+    }
+
+    public void setSUNFLOWER(String SUNFLOWER) {
+        this.SUNFLOWER = SUNFLOWER;
+    }
+
+    public String getGATLING() {
+        return GATLING;
+    }
+
+    public void setGATLING(String GATLING) {
+        this.GATLING = GATLING;
+    }
+
+    private String SUNFLOWER = "Sunflower";
+    private String GATLING = "Gatling Pea";
 
     public int getNORMAL() {
         return NORMAL;

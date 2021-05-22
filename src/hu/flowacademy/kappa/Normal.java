@@ -16,7 +16,7 @@ public class Normal extends Flower {
 
     public Normal(int x, int y) {
         super(x, y);
-        this.type = "N";
+        this.type = super.getSUNFLOWER();
         this.age = 0;
         this.hp = super.getNORMAL();
         this.x = x;
