@@ -66,12 +66,7 @@ public class Game<Public> implements ActionListener {
                 if (actionEvent.getSource() == buttons[i][j]) {
                     if (validMove(i, j)) {
                         movePlayer(i, j);
-                        if (map[i][j].getHp() == 0) {
-                            buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
-                            buttons[i][j].setText("");
-                        }
                         movesLeft--;
-
                         if (movesLeft == 0) {
                             movesLeft = 12;
                             dayCounter++;
@@ -160,8 +155,8 @@ public class Game<Public> implements ActionListener {
     public void movePlayer(int i, int j) {
         buttons[i][j].setFont(new Font("MV Boli", Font.BOLD, 14));
         map[i][j].getZombiList().clear();
-        setMapElements(i, j);
         if (map[i][j].getHp() > 0) {
+            setMapElements(i, j);
             setProperties(i, j);
         }
         buttons[player.getX()][player.getY()].setBackground(new JButton().getBackground());
@@ -174,8 +169,11 @@ public class Game<Public> implements ActionListener {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 map[i][j].setAge(map[i][j].getAge() + 1);
-                if (map[i][j].getHp() > 0) {
-                    setProperties(i, j);
+                map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
+                setProperties(i, j);
+                if (map[i][j].getHp() <= 0) {
+                    buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
+                    buttons[i][j].setText("");
                 }
             }
         }
