@@ -10,7 +10,6 @@ public class Tropical extends Flower {
     private int hp;
     private int x;
     private int y;
-    private boolean isPlayerPresent;
     private List<Zombi> zombiList;
 
     public Tropical(int x, int y) {
@@ -18,7 +17,6 @@ public class Tropical extends Flower {
         this.hp = super.getTROPICAL();
         this.type = super.getGATLING();
         this.age = 0;
-        this.isPlayerPresent = false;
         this.x = x;
         this.y = y;
         this.zombiList = new ArrayList<>();
@@ -82,15 +80,5 @@ public class Tropical extends Flower {
     @Override
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    @Override
-    public boolean isPlayerPresent() {
-        return isPlayerPresent;
-    }
-
-    @Override
-    public void setPlayerPresent(boolean playerPresent) {
-        isPlayerPresent = playerPresent;
     }
 }

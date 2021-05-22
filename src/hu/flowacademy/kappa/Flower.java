@@ -8,7 +8,6 @@ public abstract class Flower {
     private int hp;
     private int x;
     private int y;
-    private boolean isPlayerPresent;
     private final int NORMAL = 12;
     private final int TROPICAL = 18;
     private List<Zombi> zombiList;
@@ -17,7 +16,6 @@ public abstract class Flower {
         this.age = 0;
         this.x = x;
         this.y = y;
-        this.isPlayerPresent = false;
         this.zombiList = new ArrayList<>();
     }
 
@@ -94,13 +92,5 @@ public abstract class Flower {
 
     public void setY(int y) {
         this.y = y;
-    }
-
-    public boolean isPlayerPresent() {
-        return isPlayerPresent;
-    }
-
-    public void setPlayerPresent(boolean playerPresent) {
-        isPlayerPresent = playerPresent;
     }
 }

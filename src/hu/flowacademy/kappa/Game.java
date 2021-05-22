@@ -2,6 +2,7 @@ package hu.flowacademy.kappa;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.*;
@@ -16,13 +17,7 @@ public class Game<Public> implements ActionListener {
     JPanel button_panel = new JPanel();
     JLabel textfield = new JLabel();
     JButton[][] buttons = new JButton[8][8];
-    Image img1 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject-swing/images/virag.png"));
-    Image img2 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject-swing/images/harci.png"));
-    Image img3 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject-swing/images/zombi.png"));
-    Image img4 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject-swing/images/empty.png"));
-    Image img5 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject-swing/images/harciz.png"));
-    Image img6 = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject-swing/images/viragz.png"));
-
+    Images images = new Images();
     Flower[][] map = new Flower[8][8];
     Player player = new Player(8, 8);
     int dayCounter = 1;
@@ -32,24 +27,19 @@ public class Game<Public> implements ActionListener {
         putFlowers();
         putTropical();
         putZombies();
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setLayout(new BorderLayout());
         frame.setVisible(true);
-
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
         textfield.setFont(new Font("Ink Free", Font.BOLD, 50));
         textfield.setHorizontalAlignment(JLabel.CENTER);
         textfield.setText("Kertész és virágok" + " --- Day: " + dayCounter + "/Moves Left: " + movesLeft);
         textfield.setOpaque(true);
-
         title_panel.setLayout(new BorderLayout());
         title_panel.setBounds(0, 0, 800, 100);
-
-
         button_panel.setLayout(new GridLayout(8, 8));
         button_panel.setBackground(new Color(150, 150, 150));
 
@@ -77,7 +67,7 @@ public class Game<Public> implements ActionListener {
                     if (validMove(i, j)) {
                         movePlayer(i, j);
                         if (map[i][j].getHp() == 0) {
-                            buttons[i][j].setIcon(new ImageIcon(img4));
+                            buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
                             buttons[i][j].setText("");
                         }
                         movesLeft--;
@@ -149,18 +139,18 @@ public class Game<Public> implements ActionListener {
     public void setMapElements(int i, int j) {
         if (map[i][j].getType().equals("Sunflower")) {
             if (map[i][j].getZombiList().size() > 0) {
-                buttons[i][j].setIcon(new ImageIcon(img6));
+                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) (Math.random() * images.zombiePics.length - 1)]));
             } else {
-                buttons[i][j].setIcon(new ImageIcon(img1));
+                buttons[i][j].setIcon(new ImageIcon(images.getImg1()));
             }
             buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
             setProperties(i, j);
         }
         if (map[i][j].getType().equals("Gatling Pea")) {
             if (map[i][j].getZombiList().size() > 0) {
-                buttons[i][j].setIcon(new ImageIcon(img5));
+                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) (Math.random() * images.zombiePics.length - 1)]));
             } else {
-                buttons[i][j].setIcon(new ImageIcon(img2));
+                buttons[i][j].setIcon(new ImageIcon(images.getImg2()));
             }
             buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
             setProperties(i, j);

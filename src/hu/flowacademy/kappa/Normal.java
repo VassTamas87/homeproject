@@ -11,7 +11,6 @@ public class Normal extends Flower {
     private int hp;
     private int x;
     private int y;
-    private boolean isPlayerPresent;
     private List<Zombi> zombiList;
 
     public Normal(int x, int y) {
@@ -21,7 +20,6 @@ public class Normal extends Flower {
         this.hp = super.getNORMAL();
         this.x = x;
         this.y = y;
-        this.isPlayerPresent = false;
         this.zombiList = new ArrayList<>();
     }
 
@@ -77,13 +75,5 @@ public class Normal extends Flower {
 
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    public boolean isPlayerPresent() {
-        return isPlayerPresent;
-    }
-
-    public void setPlayerPresent(boolean playerPresent) {
-        isPlayerPresent = playerPresent;
     }
 }
