@@ -2,15 +2,10 @@ package hu.flowacademy.kappa;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.*;
-import javax.imageio.ImageIO;
-import javax.management.StringValueExp;
 import javax.swing.*;
 
-public class Game<Public> implements ActionListener {
+public class Game implements ActionListener {
 
     JFrame frame = new JFrame();
     JPanel title_panel = new JPanel();
@@ -71,6 +66,7 @@ public class Game<Public> implements ActionListener {
                             movesLeft = 12;
                             dayCounter++;
                             gettingOlder();
+                            zombiesMove();
                         }
                         textfield.setText("Kertész és virágok" + " --- Day: " + dayCounter + "/Moves Left: " + movesLeft);
                     }
@@ -105,7 +101,7 @@ public class Game<Public> implements ActionListener {
 
     public void putZombies() {
         int counter = 0;
-        while (counter < 7) {
+        while (counter < 1) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y].getZombiList().size() == 0) {
@@ -131,10 +127,14 @@ public class Game<Public> implements ActionListener {
                 || player.getX() == i && player.getY() == j + 1;
     }
 
+    public void setZombiePic(int i, int j) {
+        buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) Math.floor(Math.random() * images.zombiePics.length)]));
+    }
+
     public void setMapElements(int i, int j) {
         if (map[i][j].getType().equals("Sunflower")) {
             if (map[i][j].getZombiList().size() > 0) {
-                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) Math.floor(Math.random() * images.zombiePics.length)]));
+                setZombiePic(i, j);
             } else {
                 buttons[i][j].setIcon(new ImageIcon(images.getImg1()));
             }
@@ -143,7 +143,7 @@ public class Game<Public> implements ActionListener {
         }
         if (map[i][j].getType().equals("Gatling Pea")) {
             if (map[i][j].getZombiList().size() > 0) {
-                buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) Math.floor(Math.random() * images.zombiePics.length)]));
+                setZombiePic(i, j);
             } else {
                 buttons[i][j].setIcon(new ImageIcon(images.getImg2()));
             }
@@ -165,15 +165,42 @@ public class Game<Public> implements ActionListener {
         setGreenField();
     }
 
+    public void whereTo(int i, int j, Zombi temp) {
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if (map[i][j] != map[n][m]) {
+                    map[n][m].getZombiList().add(temp);
+                    setZombiePic(n, m);
+                    setProperties(n, m);
+                }
+            }
+        }
+    }
+
+    public void zombiesMove() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0) {
+                    buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
+                    buttons[i][j].setText("");
+                    Zombi temp = map[i][j].getZombiList().get(0);
+                    map[i][j].getZombiList().clear();
+                    whereTo(i, j, temp);
+                    if (map[i][j].getHp() > 0) {
+                        setProperties(i, j);
+                    }
+                }
+            }
+        }
+    }
+
     public void gettingOlder() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 map[i][j].setAge(map[i][j].getAge() + 1);
                 map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
-                setProperties(i, j);
-                if (map[i][j].getHp() <= 0) {
-                    buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
-                    buttons[i][j].setText("");
+                if (map[i][j].getHp() > 0) {
+                    setProperties(i, j);
                 }
             }
         }
