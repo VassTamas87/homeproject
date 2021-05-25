@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 
@@ -103,7 +104,7 @@ public class Game implements ActionListener {
 
     public void putZombies() {
         int counter = 0;
-        while (counter < 7) {
+        while (counter < 1) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y].getZombiList().size() == 0) {
@@ -168,17 +169,21 @@ public class Game implements ActionListener {
     }
 
     public void whereTo(int i, int j, List<Zombi> temp) {
-        boolean boo = true;
-        for (int n = i - 1; n < i + 2 && boo; n++) {
-            for (int m = j - 1; m < j + 2 && boo; m++) {
+        int[][] possibleMoves = new int[8][8];
+        int k = 0;
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
                 if ((n >= 0 && n < 8 && m >= 0 && m < 8) && map[i][j] != map[n][m] && map[n][m].getHp() > 0) {
-                    map[n][m].getZombiList().addAll(temp);
-                    setZombiePic(n, m);
-                    setProperties(n, m);
-                    boo = false;
+                    possibleMoves[k][0] = n;
+                    possibleMoves[k][1] = m;
+                    k++;
                 }
             }
         }
+        int possI = (int) Math.floor(Math.random() * k);
+        map[possibleMoves[possI][0]][possibleMoves[possI][1]].getZombiList().addAll(temp);
+        setZombiePic(possibleMoves[possI][0], possibleMoves[possI][1]);
+        setProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
     }
 
     public void zombiesMove() {
