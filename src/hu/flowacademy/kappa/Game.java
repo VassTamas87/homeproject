@@ -3,6 +3,8 @@ package hu.flowacademy.kappa;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.*;
 
 public class Game implements ActionListener {
@@ -101,7 +103,7 @@ public class Game implements ActionListener {
 
     public void putZombies() {
         int counter = 0;
-        while (counter < 1) {
+        while (counter < 7) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y].getZombiList().size() == 0) {
@@ -165,13 +167,15 @@ public class Game implements ActionListener {
         setGreenField();
     }
 
-    public void whereTo(int i, int j, Zombi temp) {
-        for (int n = i - 1; n < i + 2; n++) {
-            for (int m = j - 1; m < j + 2; m++) {
-                if (map[i][j] != map[n][m]) {
-                    map[n][m].getZombiList().add(temp);
+    public void whereTo(int i, int j, List<Zombi> temp) {
+        boolean boo = true;
+        for (int n = i - 1; n < i + 2 && boo; n++) {
+            for (int m = j - 1; m < j + 2 && boo; m++) {
+                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && map[i][j] != map[n][m] && map[n][m].getHp() > 0) {
+                    map[n][m].getZombiList().addAll(temp);
                     setZombiePic(n, m);
                     setProperties(n, m);
+                    boo = false;
                 }
             }
         }
@@ -183,7 +187,7 @@ public class Game implements ActionListener {
                 if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0) {
                     buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
                     buttons[i][j].setText("");
-                    Zombi temp = map[i][j].getZombiList().get(0);
+                    List<Zombi> temp = new ArrayList<>(map[i][j].getZombiList());
                     map[i][j].getZombiList().clear();
                     whereTo(i, j, temp);
                     if (map[i][j].getHp() > 0) {
