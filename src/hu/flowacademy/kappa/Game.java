@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
 
+
 public class Game implements ActionListener {
 
     JFrame frame = new JFrame();
@@ -21,8 +22,8 @@ public class Game implements ActionListener {
     int movesLeft = 12;
 
     Game() throws IOException {
-        putFlowers();
-        putTropical();
+        putFlowers("normal", 49);
+        putFlowers("tropical", 15);
         putZombies();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
@@ -77,25 +78,18 @@ public class Game implements ActionListener {
         }
     }
 
-    public void putFlowers() {
+    public void putFlowers(String type, int limit) {
         int counter = 0;
-        while (counter < 49) {
+        while (counter < limit) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y] == null) {
-                map[x][y] = new Normal(x, y);
-                counter++;
-            }
-        }
-    }
-
-    public void putTropical() {
-        int counter = 0;
-        while (counter < 15) {
-            int x = (int) Math.floor(Math.random() * 8);
-            int y = (int) Math.floor(Math.random() * 8);
-            if (map[x][y] == null) {
-                map[x][y] = new Tropical(x, y);
+                if (type.equals("normal")) {
+                    map[x][y] = new Normal(x, y);
+                }
+                if (type.equals("tropical")) {
+                    map[x][y] = new Tropical(x, y);
+                }
                 counter++;
             }
         }
@@ -103,7 +97,7 @@ public class Game implements ActionListener {
 
     public void putZombies() {
         int counter = 0;
-        while (counter < 32) {
+        while (counter < 7) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y].getZombiList().size() == 0) {
@@ -135,6 +129,11 @@ public class Game implements ActionListener {
 
     public void setZombiePic(int i, int j) {
         buttons[i][j].setIcon(new ImageIcon(images.zombiePics[(int) Math.floor(Math.random() * images.zombiePics.length)]));
+    }
+
+    public void setEmptyField(int i, int j) {
+        buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
+        buttons[i][j].setText("");
     }
 
     public void setMapElements(int i, int j) {
@@ -184,12 +183,22 @@ public class Game implements ActionListener {
             }
         }
         if (k > 0) {
-            int possI = (int) Math.floor(Math.random() * k);
-            map[possibleMoves[possI][0]][possibleMoves[possI][1]].getZombiList().addAll(temp);
-            setZombiePic(possibleMoves[possI][0], possibleMoves[possI][1]);
-            setProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
+            transferZombie("normal", possibleMoves, k, temp);
         } else {
             moveToEmptyField(i, j, temp);
+        }
+    }
+
+    public void transferZombie(String type, int[][] arr, int k, List<Zombi> temp) {
+        int possI = (int) Math.floor(Math.random() * k);
+        map[arr[possI][0]][arr[possI][1]].getZombiList().addAll(temp);
+        setZombiePic(arr[possI][0], arr[possI][1]);
+
+        if (type.equals("normal")) {
+            setProperties(arr[possI][0], arr[possI][1]);
+        }
+        if (type.equals("empty")) {
+            setZombieProperties(arr[possI][0], arr[possI][1]);
         }
     }
 
@@ -205,10 +214,7 @@ public class Game implements ActionListener {
                 }
             }
         }
-        int possI = (int) Math.floor(Math.random() * k);
-        map[possibleMoves[possI][0]][possibleMoves[possI][1]].getZombiList().addAll(temp);
-        setZombiePic(possibleMoves[possI][0], possibleMoves[possI][1]);
-        setZombieProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
+        transferZombie("empty", possibleMoves, k, temp);
     }
 
     public void zombiesMove() {
@@ -224,8 +230,7 @@ public class Game implements ActionListener {
             }
         }
         for (int i = 0; i < k; i++) {
-            buttons[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].setIcon(new ImageIcon(images.getImg4()));
-            buttons[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].setText("");
+            setEmptyField(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1]);
             List<Zombi> temp = new ArrayList<>(map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList());
             map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList().clear();
             whereTo(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1], temp);
@@ -236,10 +241,38 @@ public class Game implements ActionListener {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 map[i][j].setAge(map[i][j].getAge() + 1);
+                if (map[i][j].getHp() > 0 && map[i][j].getZombiList().size() > 0) {
+                    for (int n = 0; n < map[i][j].getZombiList().size(); n++) {
+                        if (map[i][j].getZombiList().get(n).getHp() < 3 && map[i][j].getZombiList().get(n).getHp() > 0) {
+                            map[i][j].getZombiList().get(n).setHp(map[i][j].getZombiList().get(n).getHp() + 3);
+                            if (map[i][j].getZombiList().get(n).getHp() >= 3) {
+                                map[i][j].getZombiList().get(n).setHp(6);
+                            }
+                        }
+                    }
+                }
+                if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0) {
+                    for (int m = 0; m < map[i][j].getZombiList().size(); m++) {
+                        map[i][j].getZombiList().get(m).setHp(map[i][j].getZombiList().get(m).getHp() - 3);
+                    }
+                }
+                isZombiesStillALive(i, j);
                 map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
                 if (map[i][j].getHp() > 0) {
                     setProperties(i, j);
                 }
+            }
+        }
+    }
+
+    public void isZombiesStillALive(int i, int j) {
+        for (int n = 0; n < map[i][j].getZombiList().size(); n++) {
+            if (map[i][j].getZombiList().get(n).getHp() <= 0) {
+                map[i][j].getZombiList().remove(n);
+                setZombieProperties(i, j);
+            }
+            if (map[i][j].getZombiList().size() <= 0) {
+                setEmptyField(i, j);
             }
         }
     }

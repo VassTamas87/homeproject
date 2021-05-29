@@ -6,16 +6,7 @@ public class Zombi {
     private boolean hasEaten;
 
     public Zombi() {
-        boolean hasEaten = false;
         this.hp = 6;
-    }
-
-    public boolean isHasEaten() {
-        return hasEaten;
-    }
-
-    public void setHasEaten(boolean hasEaten) {
-        this.hasEaten = hasEaten;
     }
 
     public int getHp() {
