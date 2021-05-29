@@ -72,6 +72,7 @@ public class Game implements ActionListener {
                             zombiesMove();
                         }
                         textfield.setText("Kertész és virágok" + " --- Day: " + dayCounter + "/Moves Left: " + movesLeft);
+                        checkEndGame();
                     }
                 }
             }
@@ -237,6 +238,39 @@ public class Game implements ActionListener {
             List<Zombi> temp = new ArrayList<>(map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList());
             map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList().clear();
             whereTo(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1], temp);
+        }
+    }
+
+    public void checkEndGame() {
+        int hpCounter = 0;
+        int zCounter = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (map[i][j].getHp() > 0) {
+                    hpCounter++;
+                }
+                zCounter += map[i][j].getZombiList().size();
+            }
+        }
+        if (hpCounter == 0) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    buttons[i][j].setBackground(new JButton().getBackground());
+                    buttons[i][j].setBackground(Color.RED);
+                    buttons[i][j].setEnabled(false);
+                    textfield.setText("GAME OVER");
+                }
+            }
+        }
+        if (zCounter <= 0) {
+            for (int i = 0; i < 8; i++) {
+                for (int j = 0; j < 8; j++) {
+                    buttons[i][j].setBackground(new JButton().getBackground());
+                    buttons[i][j].setBackground(Color.GREEN);
+                    buttons[i][j].setEnabled(false);
+                    textfield.setText("STAGE COMPLETED");
+                }
+            }
         }
     }
 
