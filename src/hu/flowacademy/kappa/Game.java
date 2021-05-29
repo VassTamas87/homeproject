@@ -4,7 +4,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.swing.*;
 
@@ -104,7 +103,7 @@ public class Game implements ActionListener {
 
     public void putZombies() {
         int counter = 0;
-        while (counter < 1) {
+        while (counter < 32) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y].getZombiList().size() == 0) {
@@ -116,6 +115,10 @@ public class Game implements ActionListener {
 
     public void setProperties(int i, int j) {
         buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp() + "<br/>" + "Age: " + map[i][j].getAge() + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
+    }
+
+    public void setZombieProperties(int i, int j) {
+        buttons[i][j].setText("Z_num:" + map[i][j].getZombiList().size());
     }
 
     public void setGreenField() {
@@ -173,7 +176,29 @@ public class Game implements ActionListener {
         int k = 0;
         for (int n = i - 1; n < i + 2; n++) {
             for (int m = j - 1; m < j + 2; m++) {
-                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && map[i][j] != map[n][m] && map[n][m].getHp() > 0) {
+                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m]) && (map[n][m].getHp() > 0) && (map[n][m].getZombiList().size() < 1)) {
+                    possibleMoves[k][0] = n;
+                    possibleMoves[k][1] = m;
+                    k++;
+                }
+            }
+        }
+        if (k > 0) {
+            int possI = (int) Math.floor(Math.random() * k);
+            map[possibleMoves[possI][0]][possibleMoves[possI][1]].getZombiList().addAll(temp);
+            setZombiePic(possibleMoves[possI][0], possibleMoves[possI][1]);
+            setProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
+        } else {
+            moveToEmptyField(i, j, temp);
+        }
+    }
+
+    public void moveToEmptyField(int i, int j, List<Zombi> temp) {
+        int[][] possibleMoves = new int[8][8];
+        int k = 0;
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m])) {
                     possibleMoves[k][0] = n;
                     possibleMoves[k][1] = m;
                     k++;
@@ -183,23 +208,27 @@ public class Game implements ActionListener {
         int possI = (int) Math.floor(Math.random() * k);
         map[possibleMoves[possI][0]][possibleMoves[possI][1]].getZombiList().addAll(temp);
         setZombiePic(possibleMoves[possI][0], possibleMoves[possI][1]);
-        setProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
+        setZombieProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
     }
 
     public void zombiesMove() {
+        int[][] zombiesNeedToMove = new int[30][30];
+        int k = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0) {
-                    buttons[i][j].setIcon(new ImageIcon(images.getImg4()));
-                    buttons[i][j].setText("");
-                    List<Zombi> temp = new ArrayList<>(map[i][j].getZombiList());
-                    map[i][j].getZombiList().clear();
-                    whereTo(i, j, temp);
-                    if (map[i][j].getHp() > 0) {
-                        setProperties(i, j);
-                    }
+                    zombiesNeedToMove[k][0] = i;
+                    zombiesNeedToMove[k][1] = j;
+                    k++;
                 }
             }
+        }
+        for (int i = 0; i < k; i++) {
+            buttons[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].setIcon(new ImageIcon(images.getImg4()));
+            buttons[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].setText("");
+            List<Zombi> temp = new ArrayList<>(map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList());
+            map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList().clear();
+            whereTo(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1], temp);
         }
     }
 
@@ -215,3 +244,4 @@ public class Game implements ActionListener {
         }
     }
 }
+
