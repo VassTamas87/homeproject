@@ -349,6 +349,9 @@ public class Game implements ActionListener {
                             setZombieProperties(i, j);
                         }
                     }
+                    if (map[i][j].getZombiList().size() <= 0 && map[i][j].getHp() <= 0) {
+                        setEmptyField(i, j);
+                    }
                     if (map[i][j].getZombiList().size() <= 0) {
                         setEmptyField(i, j);
                     }
