@@ -2,9 +2,13 @@ package hu.flowacademy.kappa;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.*;
 
 
@@ -30,8 +34,6 @@ public class Game implements ActionListener {
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setLayout(new BorderLayout());
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setResizable(false);
-        frame.pack();
         frame.setVisible(true);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
@@ -71,6 +73,7 @@ public class Game implements ActionListener {
                         if (movesLeft == 0) {
                             movesLeft = 12;
                             dayCounter++;
+                            playSound();
                             gettingOlder();
                             zombiesMove();
                         }
@@ -276,6 +279,18 @@ public class Game implements ActionListener {
                 buttons[i][j].setEnabled(false);
                 textfield.setText(end);
             }
+        }
+    }
+
+    public void playSound() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/rooster9.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
         }
     }
 

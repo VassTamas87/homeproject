@@ -5,10 +5,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class Menu implements ActionListener {
+public class Menu extends JPanel implements ActionListener {
 
     JFrame frame = new JFrame();
     JPanel title_panel = new JPanel();
@@ -22,8 +23,6 @@ public class Menu implements ActionListener {
         frame.setSize(800, 800);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        frame.setResizable(false);
-        frame.pack();
         frame.setVisible(true);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
@@ -31,31 +30,27 @@ public class Menu implements ActionListener {
         textfield.setHorizontalAlignment(JLabel.CENTER);
         textfield.setText("Kertész és virágok");
         textfield.setOpaque(true);
-        // title_panel.setLayout(new BorderLayout());
+        title_panel.setLayout(new BorderLayout());
         title_panel.setBounds(0, 0, 800, 100);
-        // button_panel.setLayout(new GridLayout(8, 8));
-        button_panel.setBackground(new Color(150, 150, 150));
-
-
-        JLabel picLabel = new JLabel(new ImageIcon(menupic), JLabel.LEFT);
-        frame.add(picLabel);
-
+        button_panel.setBounds(0, 0, 800, 100);
+        button_panel.setBackground(new Color(50, 50, 50));
+        JLabel picLabel = new JLabel(new ImageIcon(menupic));
         title_panel.add(textfield);
         frame.add(title_panel, BorderLayout.NORTH);
 
         for (int i = 0; i < 2; i++) {
             buttons[i] = new JButton();
             button_panel.add(buttons[i]);
-            buttons[i].setFont(new Font("MV Boli", Font.BOLD, 14));
+            buttons[i].setFont(new Font("MV Boli", Font.BOLD, 30));
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
-            buttons[i].setHorizontalAlignment(SwingConstants.RIGHT);
-            buttons[i].setPreferredSize(new Dimension(100, 50));
+            buttons[i].setPreferredSize(new Dimension(200, 75));
             buttons[i].setText("Start");
         }
-
-
-        frame.add(button_panel);
+        buttons[0].setText("Start");
+        buttons[1].setText("Quit");
+        frame.add(button_panel, BorderLayout.CENTER);
+        frame.add(picLabel, BorderLayout.WEST);
 
     }
 
@@ -68,9 +63,9 @@ public class Menu implements ActionListener {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
+        }
+        if (actionEvent.getSource() == buttons[1]) {
+            frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
     }
-
-
 }
