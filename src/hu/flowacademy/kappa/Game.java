@@ -29,12 +29,15 @@ public class Game implements ActionListener {
         frame.setSize(800, 800);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
         frame.setLayout(new BorderLayout());
+        frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        frame.setResizable(false);
+        frame.pack();
         frame.setVisible(true);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
         textfield.setFont(new Font("Ink Free", Font.BOLD, 50));
         textfield.setHorizontalAlignment(JLabel.CENTER);
-        textfield.setText("Kertész és virágok" + " --- Day: " + dayCounter + "/Moves Left: " + movesLeft);
+        textfield.setText("Day: " + dayCounter + "/Moves Left: " + movesLeft);
         textfield.setOpaque(true);
         title_panel.setLayout(new BorderLayout());
         title_panel.setBounds(0, 0, 800, 100);
@@ -71,7 +74,7 @@ public class Game implements ActionListener {
                             gettingOlder();
                             zombiesMove();
                         }
-                        textfield.setText("Kertész és virágok" + " --- Day: " + dayCounter + "/Moves Left: " + movesLeft);
+                        textfield.setText("Day: " + dayCounter + "/Moves Left: " + movesLeft);
                         checkEndGame();
                     }
                 }
