@@ -253,23 +253,25 @@ public class Game implements ActionListener {
             }
         }
         if (hpCounter == 0) {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    buttons[i][j].setBackground(new JButton().getBackground());
-                    buttons[i][j].setBackground(Color.RED);
-                    buttons[i][j].setEnabled(false);
-                    textfield.setText("GAME OVER");
-                }
-            }
+            end("GAME OVER", "red");
         }
         if (zCounter <= 0) {
-            for (int i = 0; i < 8; i++) {
-                for (int j = 0; j < 8; j++) {
-                    buttons[i][j].setBackground(new JButton().getBackground());
-                    buttons[i][j].setBackground(Color.GREEN);
-                    buttons[i][j].setEnabled(false);
-                    textfield.setText("STAGE COMPLETED");
+            end("STAGE COMPLETED", "green");
+        }
+    }
+
+    public void end(String end, String color) {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                buttons[i][j].setBackground(new JButton().getBackground());
+                if (color.equals("red")) {
+                    buttons[i][j].setBackground(Color.RED);
                 }
+                if (color.equals("green")) {
+                    buttons[i][j].setBackground(Color.GREEN);
+                }
+                buttons[i][j].setEnabled(false);
+                textfield.setText(end);
             }
         }
     }
@@ -287,7 +289,20 @@ public class Game implements ActionListener {
                         if (map[i][j].getZombiList().get(n).getHp() >= 3) {
                             map[i][j].getZombiList().get(n).setHp(6);
                         }
+                        if (map[i][j].getType().equals("Gatling Pea")) {
+                            for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
+
+                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 7)));
+                                if (map[i][j].getZombiList().get(k).getHp() <= 0) {
+                                    map[i][j].getZombiList().remove(k);
+                                    k--;
+                                    setMapElements(i, j);
+                                    setProperties(i, j);
+                                }
+                            }
+                        }
                     }
+                    //map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
                 } else if (map[i][j].getZombiList().size() > 0 && map[i][j].getHp() <= 0) {
                     for (int m = 0; m < map[i][j].getZombiList().size(); m++) {
                         map[i][j].getZombiList().get(m).setHp(map[i][j].getZombiList().get(m).getHp() - 3);
