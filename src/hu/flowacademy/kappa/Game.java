@@ -133,7 +133,8 @@ public class Game implements ActionListener {
     }
 
     public void setProperties(int i, int j) {
-        buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp() + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
+        buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp()
+                + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
     }
 
     public void setZombieProperties(int i, int j) {
