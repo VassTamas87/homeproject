@@ -23,12 +23,17 @@ public class Game implements ActionListener {
     Flower[][] map = new Flower[8][8];
     Player player = new Player(8, 8);
     int dayCounter = 1;
-    int movesLeft = 12;
+    int movesLeft;
+    boolean hard;
 
-    Game() throws IOException {
+    Game(int difficulty, int moves) throws IOException {
+        if (moves == 6) {
+            setHard(true);
+        }
+        setMovesLeft(moves);
         putFlowers("normal", 49);
         putFlowers("tropical", 15);
-        putZombies();
+        putZombies(difficulty);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.getContentPane().setBackground(new Color(50, 50, 50));
@@ -71,7 +76,12 @@ public class Game implements ActionListener {
                         movePlayer(i, j);
                         movesLeft--;
                         if (movesLeft == 0) {
-                            movesLeft = 12;
+                            if (hard) {
+                                movesLeft = 6;
+                            }
+                            if (!hard) {
+                                movesLeft = 12;
+                            }
                             dayCounter++;
                             playSound();
                             gettingOlder();
@@ -83,6 +93,14 @@ public class Game implements ActionListener {
                 }
             }
         }
+    }
+
+    public void setHard(boolean hard) {
+        this.hard = hard;
+    }
+
+    public void setMovesLeft(int movesLeft) {
+        this.movesLeft = movesLeft;
     }
 
     public void putFlowers(String type, int limit) {
@@ -102,9 +120,9 @@ public class Game implements ActionListener {
         }
     }
 
-    public void putZombies() {
+    public void putZombies(int difficulty) {
         int counter = 0;
-        while (counter < 7) {
+        while (counter < difficulty) {
             int x = (int) Math.floor(Math.random() * 8);
             int y = (int) Math.floor(Math.random() * 8);
             if (map[x][y].getZombiList().size() == 0) {
@@ -115,7 +133,7 @@ public class Game implements ActionListener {
     }
 
     public void setProperties(int i, int j) {
-        buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp() + "<br/>" + "Age: " + map[i][j].getAge() + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
+        buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp() + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
     }
 
     public void setZombieProperties(int i, int j) {

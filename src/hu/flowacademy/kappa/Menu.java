@@ -16,12 +16,12 @@ public class Menu extends JPanel implements ActionListener {
     JPanel button_panel = new JPanel();
     JLabel textfield = new JLabel();
     Image menupic = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/menupic.png"));
-    JButton[] buttons = new JButton[2];
+    JButton[] buttons = new JButton[3];
 
     Menu() throws IOException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
-        frame.getContentPane().setBackground(new Color(50, 50, 50));
+        frame.getContentPane().setBackground(new Color(25, 25, 25));
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setVisible(true);
         textfield.setBackground(new Color(25, 25, 25));
@@ -37,21 +37,29 @@ public class Menu extends JPanel implements ActionListener {
         JLabel picLabel = new JLabel(new ImageIcon(menupic));
         title_panel.add(textfield);
         frame.add(title_panel, BorderLayout.NORTH);
-
-        for (int i = 0; i < 2; i++) {
+        button_panel.setLayout(new GridLayout(3, 1, 0, 0));
+        for (int i = 0; i < 3; i++) {
             buttons[i] = new JButton();
             button_panel.add(buttons[i]);
-            buttons[i].setFont(new Font("MV Boli", Font.BOLD, 30));
+            buttons[i].setFont(new Font("MV Boli", Font.BOLD, 75));
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
-            buttons[i].setPreferredSize(new Dimension(200, 75));
-            buttons[i].setText("Start");
+            int j = i;
+            buttons[i].addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseEntered(java.awt.event.MouseEvent evt) {
+                    buttons[j].setBackground(Color.GREEN);
+                }
+
+                public void mouseExited(java.awt.event.MouseEvent evt) {
+                    buttons[j].setBackground(UIManager.getColor("control"));
+                }
+            });
         }
-        buttons[0].setText("Start");
-        buttons[1].setText("Quit");
+        buttons[0].setText("Normal");
+        buttons[1].setText("Hard");
+        buttons[2].setText("Quit");
         frame.add(button_panel, BorderLayout.CENTER);
         frame.add(picLabel, BorderLayout.WEST);
-
     }
 
     @Override
@@ -59,12 +67,20 @@ public class Menu extends JPanel implements ActionListener {
         if (actionEvent.getSource() == buttons[0]) {
             try {
                 frame.setVisible(false);
-                Game game = new Game();
+                Game game = new Game(7, 12);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         if (actionEvent.getSource() == buttons[1]) {
+            try {
+                frame.setVisible(false);
+                Game game = new Game(20, 6);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        if (actionEvent.getSource() == buttons[2]) {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
     }

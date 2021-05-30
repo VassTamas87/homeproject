@@ -3,7 +3,6 @@ package hu.flowacademy.kappa;
 public class Zombi {
 
     private int hp;
-    private boolean hasEaten;
 
     public Zombi() {
         this.hp = 6;
