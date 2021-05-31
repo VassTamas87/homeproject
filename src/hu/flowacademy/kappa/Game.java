@@ -257,19 +257,41 @@ public class Game implements ActionListener {
         }
     }
 
+    public boolean inspectNeighbors(int i, int j) {
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m]) && (map[n][m].getHp() > 0)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     public void moveToEmptyField(int i, int j, Zombi temp) {
         int[][] possibleMoves = new int[8][8];
+        int[][] betterMoves = new int[8][8];
         int k = 0;
+        int l = 0;
         for (int n = i - 1; n < i + 2; n++) {
             for (int m = j - 1; m < j + 2; m++) {
                 if ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m])) {
                     possibleMoves[k][0] = n;
                     possibleMoves[k][1] = m;
                     k++;
+                    if (inspectNeighbors(n, m)) {
+                        betterMoves[k][0] = n;
+                        betterMoves[k][1] = m;
+                        l++;
+                    }
                 }
             }
         }
-        transferZombie("empty", possibleMoves, k, temp);
+        if (l > 0) {
+            transferZombie("empty", betterMoves, l, temp);
+        } else {
+            transferZombie("empty", possibleMoves, k, temp);
+        }
     }
 
     public void zombiesMove() {
