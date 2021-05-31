@@ -242,7 +242,7 @@ public class Game implements ActionListener {
         setGreenField();
     }
 
-    public void whereTo(int i, int j, List<Zombi> temp) {
+    public void whereTo(int i, int j, Zombi temp) {
         int[][] possibleMoves = new int[8][8];
         int k = 0;
         for (int n = i - 1; n < i + 2; n++) {
@@ -261,9 +261,9 @@ public class Game implements ActionListener {
         }
     }
 
-    public void transferZombie(String type, int[][] arr, int k, List<Zombi> temp) {
+    public void transferZombie(String type, int[][] arr, int k, Zombi temp) {
         int possI = (int) Math.floor(Math.random() * k);
-        map[arr[possI][0]][arr[possI][1]].getZombiList().addAll(temp);
+        map[arr[possI][0]][arr[possI][1]].getZombiList().add(temp);
         setZombiePic(arr[possI][0], arr[possI][1]);
 
         if (type.equals("normal")) {
@@ -274,7 +274,7 @@ public class Game implements ActionListener {
         }
     }
 
-    public void moveToEmptyField(int i, int j, List<Zombi> temp) {
+    public void moveToEmptyField(int i, int j, Zombi temp) {
         int[][] possibleMoves = new int[8][8];
         int k = 0;
         for (int n = i - 1; n < i + 2; n++) {
@@ -305,7 +305,9 @@ public class Game implements ActionListener {
             setEmptyField(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1]);
             List<Zombi> temp = new ArrayList<>(map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList());
             map[zombiesNeedToMove[i][0]][zombiesNeedToMove[i][1]].getZombiList().clear();
-            whereTo(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1], temp);
+            for (Zombi zombi : temp) {
+                whereTo(zombiesNeedToMove[i][0], zombiesNeedToMove[i][1], zombi);
+            }
         }
     }
 
@@ -355,43 +357,54 @@ public class Game implements ActionListener {
         }
     }
 
+    public void flowerAttacking(int i, int j) {
+        for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
+            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - (int) Math.floor(Math.random() * 6));
+            if (map[i][j].getZombiList().get(k).getHp() <= 0) {
+                map[i][j].getZombiList().remove(k);
+                zombiTotal--;
+                k--;
+                setMapElements(i, j);
+                setProperties(i, j);
+            }
+        }
+    }
+
+    public void zombieAttack(int i, int j) {
+        map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
+        for (int n = 0; n < map[i][j].getZombiList().size(); n++) {
+            if ((map[i][j].getZombiList().get(n).getHp() < 3) && (map[i][j].getZombiList().get(n).getHp() > 0)) {
+                map[i][j].getZombiList().get(n).setHp(map[i][j].getZombiList().get(n).getHp() + 3);
+            }
+            if (map[i][j].getZombiList().get(n).getHp() >= 3) {
+                map[i][j].getZombiList().get(n).setHp(6);
+            }
+        }
+    }
+
+    public void zombieStarving(int i, int j) {
+        for (int m = 0; m < map[i][j].getZombiList().size(); m++) {
+            map[i][j].getZombiList().get(m).setHp(map[i][j].getZombiList().get(m).getHp() - 3);
+            if (map[i][j].getZombiList().get(m).getHp() <= 0) {
+                map[i][j].getZombiList().remove(m);
+                zombiTotal--;
+                m--;
+                setZombieProperties(i, j);
+            }
+        }
+    }
+
     public void gettingOlder() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 map[i][j].setAge(map[i][j].getAge() + 1);
                 if (map[i][j].getZombiList().size() > 0 && map[i][j].getHp() > 0) {
-                    map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
-                    for (int n = 0; n < map[i][j].getZombiList().size(); n++) {
-                        if ((map[i][j].getZombiList().get(n).getHp() < 3) && (map[i][j].getZombiList().get(n).getHp() > 0)) {
-                            map[i][j].getZombiList().get(n).setHp(map[i][j].getZombiList().get(n).getHp() + 3);
-                        }
-                        if (map[i][j].getZombiList().get(n).getHp() >= 3) {
-                            map[i][j].getZombiList().get(n).setHp(6);
-                        }
-                        if (map[i][j].getType().equals("Gatling Pea")) {
-                            for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
-                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 6 + 1)));
-                                if (map[i][j].getZombiList().get(k).getHp() <= 0) {
-                                    map[i][j].getZombiList().remove(k);
-                                    zombiTotal--;
-                                    k--;
-                                    setMapElements(i, j);
-                                    setProperties(i, j);
-                                }
-                            }
-                        }
+                    zombieAttack(i, j);
+                    if (map[i][j].getType().equals("Gatling Pea")) {
+                        flowerAttacking(i, j);
                     }
-                    //map[i][j].setHp(map[i][j].getHp() - (map[i][j].getZombiList().size() * 2));
                 } else if (map[i][j].getZombiList().size() > 0 && map[i][j].getHp() <= 0) {
-                    for (int m = 0; m < map[i][j].getZombiList().size(); m++) {
-                        map[i][j].getZombiList().get(m).setHp(map[i][j].getZombiList().get(m).getHp() - 3);
-                        if (map[i][j].getZombiList().get(m).getHp() <= 0) {
-                            map[i][j].getZombiList().remove(m);
-                            zombiTotal--;
-                            m--;
-                            setZombieProperties(i, j);
-                        }
-                    }
+                    zombieStarving(i, j);
                     if (map[i][j].getZombiList().size() <= 0 && map[i][j].getHp() <= 0) {
                         setEmptyField(i, j);
                     }
