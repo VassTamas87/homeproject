@@ -1,11 +1,13 @@
 package hu.flowacademy.kappa;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
@@ -18,8 +20,17 @@ public class Menu extends JPanel implements ActionListener {
     Image menupic = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/menupic.png"));
     JButton[] buttons = new JButton[4];
     boolean isSound = true;
+    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/menu.wav").getAbsoluteFile());
+    Clip clip = AudioSystem.getClip();
 
-    Menu() throws IOException {
+    Menu() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
+        try {
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 800);
         frame.getContentPane().setBackground(new Color(25, 25, 25));
@@ -43,6 +54,7 @@ public class Menu extends JPanel implements ActionListener {
             buttons[i] = new JButton();
             button_panel.add(buttons[i]);
             buttons[i].setFont(new Font("MV Boli", Font.BOLD, 75));
+            //buttons[i].setBackground(new Color(25, 25, 25));
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
             int j = i;
@@ -74,11 +86,13 @@ public class Menu extends JPanel implements ActionListener {
             try {
                 frame.setVisible(false);
                 if (isSound) {
+                    clip.stop();
                     Game game = new Game(7, 12, true);
                 } else {
+                    clip.stop();
                     Game game = new Game(7, 12, false);
                 }
-            } catch (IOException e) {
+            } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                 e.printStackTrace();
             }
         }
@@ -91,15 +105,17 @@ public class Menu extends JPanel implements ActionListener {
                     Game game = new Game(20, 6, false);
                 }
 
-            } catch (IOException e) {
+            } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }
         }
         if (actionEvent.getSource() == buttons[2]) {
             if (isSound) {
+                clip.stop();
                 buttons[2].setText("Sound: Off");
                 setSound(false);
             } else {
+                clip.start();
                 buttons[2].setText("Sound: On");
                 setSound(true);
             }

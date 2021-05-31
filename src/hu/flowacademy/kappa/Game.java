@@ -6,11 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import javax.sound.sampled.*;
 import javax.swing.*;
-
 
 public class Game implements ActionListener {
 
@@ -27,8 +24,13 @@ public class Game implements ActionListener {
     boolean hard;
     int zombiTotal = 0;
     boolean isSound;
+    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/ingame.wav").getAbsoluteFile());
+    Clip clip = AudioSystem.getClip();
+    Sound sound = new Sound();
+    Sound sound2 = new Sound();
+    Sound sound3 = new Sound();
 
-    Game(int difficulty, int moves, boolean sound) throws IOException {
+    Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         if (sound) {
             setSound(true);
         }
@@ -38,6 +40,10 @@ public class Game implements ActionListener {
         }
         if (!hard) {
             setZombiTotal(7);
+        }
+        if (isSound) {
+            clip.open(audioInputStream);
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
         setMovesLeft(moves);
         putFlowers("normal", 49);
@@ -93,7 +99,7 @@ public class Game implements ActionListener {
                             }
                             dayCounter++;
                             if (isSound) {
-                                playSound();
+                                sound.rooster();
                             }
                             gettingOlder();
                             zombiesMove();
@@ -306,6 +312,17 @@ public class Game implements ActionListener {
     }
 
     public void end(String end, String color) {
+        clip.stop();
+        if (color.equals("green")) {
+            if (isSound) {
+                sound2.win();
+            }
+        }
+        if (color.equals("red")) {
+            if (isSound) {
+                sound3.lose();
+            }
+        }
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 buttons[i][j].setBackground(new JButton().getBackground());
@@ -318,18 +335,6 @@ public class Game implements ActionListener {
                 buttons[i][j].setEnabled(false);
                 textfield.setText(end);
             }
-        }
-    }
-
-    public void playSound() {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/rooster9.wav").getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
         }
     }
 

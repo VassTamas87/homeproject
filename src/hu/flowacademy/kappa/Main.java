@@ -1,10 +1,12 @@
 package hu.flowacademy.kappa;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         Menu menu = new Menu();
     }
 }
