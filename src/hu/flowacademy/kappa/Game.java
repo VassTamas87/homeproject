@@ -26,8 +26,12 @@ public class Game implements ActionListener {
     int movesLeft;
     boolean hard;
     int zombiTotal = 0;
+    boolean isSound;
 
-    Game(int difficulty, int moves) throws IOException {
+    Game(int difficulty, int moves, boolean sound) throws IOException {
+        if (sound) {
+            setSound(true);
+        }
         if (moves == 6) {
             setHard(true);
             setZombiTotal(20);
@@ -88,7 +92,9 @@ public class Game implements ActionListener {
                                 movesLeft = 12;
                             }
                             dayCounter++;
-                            playSound();
+                            if (isSound) {
+                                playSound();
+                            }
                             gettingOlder();
                             zombiesMove();
                         }
@@ -98,6 +104,10 @@ public class Game implements ActionListener {
                 }
             }
         }
+    }
+
+    public void setSound(boolean sound) {
+        isSound = sound;
     }
 
     public void setZombiTotal(int zombiTotal) {
@@ -339,7 +349,7 @@ public class Game implements ActionListener {
                         if (map[i][j].getType().equals("Gatling Pea")) {
                             for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
 
-                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 4)));
+                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 6)));
                                 if (map[i][j].getZombiList().get(k).getHp() <= 0) {
                                     map[i][j].getZombiList().remove(k);
                                     zombiTotal--;

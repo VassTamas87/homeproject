@@ -16,7 +16,8 @@ public class Menu extends JPanel implements ActionListener {
     JPanel button_panel = new JPanel();
     JLabel textfield = new JLabel();
     Image menupic = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/menupic.png"));
-    JButton[] buttons = new JButton[3];
+    JButton[] buttons = new JButton[4];
+    boolean isSound = true;
 
     Menu() throws IOException {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,8 +38,8 @@ public class Menu extends JPanel implements ActionListener {
         JLabel picLabel = new JLabel(new ImageIcon(menupic));
         title_panel.add(textfield);
         frame.add(title_panel, BorderLayout.NORTH);
-        button_panel.setLayout(new GridLayout(3, 1, 0, 0));
-        for (int i = 0; i < 3; i++) {
+        button_panel.setLayout(new GridLayout(4, 1, 0, 0));
+        for (int i = 0; i < 4; i++) {
             buttons[i] = new JButton();
             button_panel.add(buttons[i]);
             buttons[i].setFont(new Font("MV Boli", Font.BOLD, 75));
@@ -57,9 +58,14 @@ public class Menu extends JPanel implements ActionListener {
         }
         buttons[0].setText("Normal");
         buttons[1].setText("Hard");
-        buttons[2].setText("Quit");
+        buttons[2].setText("Sound: On");
+        buttons[3].setText("Quit");
         frame.add(button_panel, BorderLayout.CENTER);
         frame.add(picLabel, BorderLayout.WEST);
+    }
+
+    public void setSound(boolean sound) {
+        this.isSound = sound;
     }
 
     @Override
@@ -67,7 +73,11 @@ public class Menu extends JPanel implements ActionListener {
         if (actionEvent.getSource() == buttons[0]) {
             try {
                 frame.setVisible(false);
-                Game game = new Game(7, 12);
+                if (isSound) {
+                    Game game = new Game(7, 12, true);
+                } else {
+                    Game game = new Game(7, 12, false);
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -75,12 +85,26 @@ public class Menu extends JPanel implements ActionListener {
         if (actionEvent.getSource() == buttons[1]) {
             try {
                 frame.setVisible(false);
-                Game game = new Game(20, 6);
+                if (isSound) {
+                    Game game = new Game(20, 6, true);
+                } else {
+                    Game game = new Game(20, 6, false);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
         if (actionEvent.getSource() == buttons[2]) {
+            if (isSound) {
+                buttons[2].setText("Sound: Off");
+                setSound(false);
+            } else {
+                buttons[2].setText("Sound: On");
+                setSound(true);
+            }
+        }
+        if (actionEvent.getSource() == buttons[3]) {
             frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
         }
     }
