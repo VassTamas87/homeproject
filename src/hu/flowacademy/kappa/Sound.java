@@ -10,18 +10,6 @@ public class Sound {
     public Sound() {
     }
 
-    public void rooster() {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/rooster9.wav").getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
-        }
-    }
-
     public void win() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/winmusic.wav").getAbsoluteFile());
@@ -46,18 +34,6 @@ public class Sound {
         }
     }
 
-    public void step() {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/floop.wav").getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
-        }
-    }
-
     public void zombie() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan.wav").getAbsoluteFile());
@@ -67,6 +43,90 @@ public class Sound {
         } catch (Exception ex) {
             System.out.println("Error with playing sound.");
             ex.printStackTrace();
+        }
+    }
+
+    public void zombie2() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan2.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void zombie3() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan3.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void zombie4() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan4.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void zombie5() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan5.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void zombie6() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan6.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void select() {
+        int i = (int) Math.floor(Math.random() * 6);
+        switch (i) {
+            case 0:
+                zombie();
+                break;
+            case 1:
+                zombie2();
+                break;
+            case 2:
+                zombie3();
+                break;
+            case 3:
+                zombie4();
+                break;
+            case 4:
+                zombie5();
+                break;
+            case 5:
+                zombie6();
+                break;
         }
     }
 }

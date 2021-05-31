@@ -26,10 +26,8 @@ public class Game implements ActionListener {
     boolean isSound;
     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/ingame.wav").getAbsoluteFile());
     Clip clip = AudioSystem.getClip();
-    Sound sound = new Sound();
     Sound sound2 = new Sound();
     Sound sound3 = new Sound();
-    Sound sound4 = new Sound();
     Sound sound5 = new Sound();
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
@@ -90,13 +88,6 @@ public class Game implements ActionListener {
             for (int j = 0; j < 8; j++) {
                 if (actionEvent.getSource() == buttons[i][j]) {
                     if (validMove(i, j)) {
-                        if (isSound) {
-                            try {
-                                sound4.step();
-                            } catch (Exception e) {
-                                System.out.println("Error with playing sound.");
-                            }
-                        }
                         movePlayer(i, j);
                         movesLeft--;
                         if (movesLeft == 0) {
@@ -107,18 +98,10 @@ public class Game implements ActionListener {
                                 movesLeft = 12;
                             }
                             dayCounter++;
-                            if (isSound) {
-                                sound.rooster();
-                                try {
-                                    Thread.sleep(2000);
-                                } catch (InterruptedException e) {
-                                    e.printStackTrace();
-                                }
-                            }
                             gettingOlder();
                             zombiesMove();
                             if (isSound && zombiTotal > 0) {
-                                sound5.zombie();
+                                sound5.select();
                             }
                         }
                         textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
