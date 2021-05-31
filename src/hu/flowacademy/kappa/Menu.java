@@ -17,10 +17,10 @@ public class Menu extends JPanel implements ActionListener {
     JPanel title_panel = new JPanel();
     JPanel button_panel = new JPanel();
     JLabel textfield = new JLabel();
-    Image menupic = ImageIO.read(new FileInputStream("/home/vasi/Git/homeproject/images/menupic.png"));
+    Image menupic = ImageIO.read(new FileInputStream("images/menupic.png"));
     JButton[] buttons = new JButton[4];
     boolean isSound = true;
-    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/menu.wav").getAbsoluteFile());
+    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/menu.wav").getAbsoluteFile());
     Clip clip = AudioSystem.getClip();
 
     Menu() throws IOException, LineUnavailableException, UnsupportedAudioFileException {

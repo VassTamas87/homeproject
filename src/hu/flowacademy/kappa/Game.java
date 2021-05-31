@@ -24,7 +24,7 @@ public class Game implements ActionListener {
     boolean hard;
     int zombiTotal = 0;
     boolean isSound;
-    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/ingame.wav").getAbsoluteFile());
+    AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/ingame.wav").getAbsoluteFile());
     Clip clip = AudioSystem.getClip();
     Sound sound = new Sound();
     Sound sound2 = new Sound();
