@@ -25,10 +25,15 @@ public class Game implements ActionListener {
     int dayCounter = 1;
     int movesLeft;
     boolean hard;
+    int zombiTotal = 0;
 
     Game(int difficulty, int moves) throws IOException {
         if (moves == 6) {
             setHard(true);
+            setZombiTotal(20);
+        }
+        if (!hard) {
+            setZombiTotal(7);
         }
         setMovesLeft(moves);
         putFlowers("normal", 49);
@@ -44,7 +49,7 @@ public class Game implements ActionListener {
         textfield.setForeground(new Color(25, 255, 0));
         textfield.setFont(new Font("Ink Free", Font.BOLD, 50));
         textfield.setHorizontalAlignment(JLabel.CENTER);
-        textfield.setText("Day: " + dayCounter + "/Moves Left: " + movesLeft);
+        textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
         textfield.setOpaque(true);
         title_panel.setLayout(new BorderLayout());
         title_panel.setBounds(0, 0, 800, 100);
@@ -87,12 +92,16 @@ public class Game implements ActionListener {
                             gettingOlder();
                             zombiesMove();
                         }
-                        textfield.setText("Day: " + dayCounter + "/Moves Left: " + movesLeft);
+                        textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
                         checkEndGame();
                     }
                 }
             }
         }
+    }
+
+    public void setZombiTotal(int zombiTotal) {
+        this.zombiTotal = zombiTotal;
     }
 
     public void setHard(boolean hard) {
@@ -185,6 +194,7 @@ public class Game implements ActionListener {
 
     public void movePlayer(int i, int j) {
         buttons[i][j].setFont(new Font("MV Boli", Font.BOLD, 14));
+        zombiTotal -= map[i][j].getZombiList().size();
         map[i][j].getZombiList().clear();
         if (map[i][j].getHp() > 0) {
             setMapElements(i, j);
@@ -329,9 +339,10 @@ public class Game implements ActionListener {
                         if (map[i][j].getType().equals("Gatling Pea")) {
                             for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
 
-                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 7)));
+                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 4)));
                                 if (map[i][j].getZombiList().get(k).getHp() <= 0) {
                                     map[i][j].getZombiList().remove(k);
+                                    zombiTotal--;
                                     k--;
                                     setMapElements(i, j);
                                     setProperties(i, j);
@@ -345,6 +356,7 @@ public class Game implements ActionListener {
                         map[i][j].getZombiList().get(m).setHp(map[i][j].getZombiList().get(m).getHp() - 3);
                         if (map[i][j].getZombiList().get(m).getHp() <= 0) {
                             map[i][j].getZombiList().remove(m);
+                            zombiTotal--;
                             m--;
                             setZombieProperties(i, j);
                         }
