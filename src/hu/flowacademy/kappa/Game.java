@@ -29,6 +29,8 @@ public class Game implements ActionListener {
     Sound sound = new Sound();
     Sound sound2 = new Sound();
     Sound sound3 = new Sound();
+    Sound sound4 = new Sound();
+    Sound sound5 = new Sound();
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         if (sound) {
@@ -88,6 +90,13 @@ public class Game implements ActionListener {
             for (int j = 0; j < 8; j++) {
                 if (actionEvent.getSource() == buttons[i][j]) {
                     if (validMove(i, j)) {
+                        if (isSound) {
+                            try {
+                                sound4.step();
+                            } catch (Exception e) {
+                                System.out.println("Error with playing sound.");
+                            }
+                        }
                         movePlayer(i, j);
                         movesLeft--;
                         if (movesLeft == 0) {
@@ -100,9 +109,17 @@ public class Game implements ActionListener {
                             dayCounter++;
                             if (isSound) {
                                 sound.rooster();
+                                try {
+                                    Thread.sleep(2000);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
                             }
                             gettingOlder();
                             zombiesMove();
+                            if (isSound && zombiTotal > 0) {
+                                sound5.zombie();
+                            }
                         }
                         textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
                         checkEndGame();
@@ -273,7 +290,7 @@ public class Game implements ActionListener {
     }
 
     public void zombiesMove() {
-        int[][] zombiesNeedToMove = new int[30][30];
+        int[][] zombiesNeedToMove = new int[60][60];
         int k = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -353,8 +370,7 @@ public class Game implements ActionListener {
                         }
                         if (map[i][j].getType().equals("Gatling Pea")) {
                             for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
-
-                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 6)));
+                                map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - ((int) Math.floor(Math.random() * 6 + 1)));
                                 if (map[i][j].getZombiList().get(k).getHp() <= 0) {
                                     map[i][j].getZombiList().remove(k);
                                     zombiTotal--;

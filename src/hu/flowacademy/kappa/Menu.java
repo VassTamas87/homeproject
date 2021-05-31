@@ -54,7 +54,6 @@ public class Menu extends JPanel implements ActionListener {
             buttons[i] = new JButton();
             button_panel.add(buttons[i]);
             buttons[i].setFont(new Font("MV Boli", Font.BOLD, 75));
-            //buttons[i].setBackground(new Color(25, 25, 25));
             buttons[i].setFocusable(false);
             buttons[i].addActionListener(this);
             int j = i;
@@ -100,11 +99,12 @@ public class Menu extends JPanel implements ActionListener {
             try {
                 frame.setVisible(false);
                 if (isSound) {
+                    clip.stop();
                     Game game = new Game(20, 6, true);
                 } else {
+                    clip.stop();
                     Game game = new Game(20, 6, false);
                 }
-
             } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
                 e.printStackTrace();
             }

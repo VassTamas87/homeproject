@@ -45,4 +45,28 @@ public class Sound {
             ex.printStackTrace();
         }
     }
+
+    public void step() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/floop.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
+    public void zombie() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("/home/vasi/Git/homeproject/sounds/groan.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
 }
