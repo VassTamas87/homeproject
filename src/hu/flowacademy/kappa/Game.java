@@ -29,6 +29,7 @@ public class Game implements ActionListener {
     Sound sound2 = new Sound();
     Sound sound3 = new Sound();
     Sound sound5 = new Sound();
+    Sound sound1 = new Sound();
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         if (sound) {
@@ -90,6 +91,9 @@ public class Game implements ActionListener {
                     if (validMove(i, j)) {
                         movePlayer(i, j);
                         movesLeft--;
+                        if (isSound && (movesLeft == 8 || movesLeft == 4)) {
+                            sound5.select();
+                        }
                         if (movesLeft == 0) {
                             if (hard) {
                                 movesLeft = 6;
@@ -100,8 +104,8 @@ public class Game implements ActionListener {
                             dayCounter++;
                             gettingOlder();
                             zombiesMove();
-                            if (isSound && zombiTotal > 0) {
-                                sound5.select();
+                            if (isSound) {
+                                sound1.rooster();
                             }
                         }
                         textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);

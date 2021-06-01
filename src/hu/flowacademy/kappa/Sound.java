@@ -10,6 +10,18 @@ public class Sound {
     public Sound() {
     }
 
+    public void rooster() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/rooster.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
     public void win() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/winmusic.wav").getAbsoluteFile());
@@ -70,30 +82,6 @@ public class Sound {
         }
     }
 
-    public void zombie4() {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan4.wav").getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
-        }
-    }
-
-    public void zombie5() {
-        try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan5.wav").getAbsoluteFile());
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioInputStream);
-            clip.start();
-        } catch (Exception ex) {
-            System.out.println("Error with playing sound.");
-            ex.printStackTrace();
-        }
-    }
-
     public void zombie6() {
         try {
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/groan6.wav").getAbsoluteFile());
@@ -106,8 +94,20 @@ public class Sound {
         }
     }
 
+    public void zombie7() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/lowgroan.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
     public void select() {
-        int i = (int) Math.floor(Math.random() * 6);
+        int i = (int) Math.floor(Math.random() * 5);
         switch (i) {
             case 0:
                 zombie();
@@ -119,13 +119,10 @@ public class Sound {
                 zombie3();
                 break;
             case 3:
-                zombie4();
+                zombie6();
                 break;
             case 4:
-                zombie5();
-                break;
-            case 5:
-                zombie6();
+                zombie7();
                 break;
         }
     }
