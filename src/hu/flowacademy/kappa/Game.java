@@ -280,8 +280,8 @@ public class Game implements ActionListener {
                     possibleMoves[k][1] = m;
                     k++;
                     if (inspectNeighbors(n, m)) {
-                        betterMoves[k][0] = n;
-                        betterMoves[k][1] = m;
+                        betterMoves[l][0] = n;
+                        betterMoves[l][1] = m;
                         l++;
                     }
                 }
