@@ -106,6 +106,7 @@ public class Game implements ActionListener {
                             dayCounter++;
                             gettingOlder();
                             zombiesMove();
+                            bornZombies();
                             if (isSound) {
                                 sound1.rooster();
                             }
@@ -250,6 +251,58 @@ public class Game implements ActionListener {
         }
     }
 
+    public void bornZombies() {
+        int[][] zombies = new int[63][63];
+        int k = 0;
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (map[i][j].getZombiList().size() > 0) {
+                    zombies[k][0] = i;
+                    zombies[k][1] = j;
+                    k++;
+                }
+            }
+        }
+        for (int i = 0; i < k; i++) {
+            whereToBorn(zombies[i][0], zombies[i][1]);
+        }
+    }
+
+    public void whereToBorn(int i, int j) {
+        int k = 0;
+        int[][] possibleMoves = new int[8][8];
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m]) && (map[n][m].getHp() > 0) && (map[n][m].getZombiList().size() < 1)) {
+                    possibleMoves[k][0] = n;
+                    possibleMoves[k][1] = m;
+                    k++;
+                }
+            }
+        }
+
+        int size = map[i][j].getZombiList().size();
+        if (k > 0) {
+            for (int l = 0; l < map[i][j].getZombiList().size(); l++) {
+                int possI = (int) Math.floor(Math.random() * k);
+                map[possibleMoves[possI][0]][possibleMoves[possI][1]].getZombiList().add(new Zombi());
+                zombiTotal++;
+                setMapElements(possibleMoves[possI][0], possibleMoves[possI][1]);
+                setProperties(possibleMoves[possI][0], possibleMoves[possI][1]);
+            }
+        } else {
+            for (int o = 0; o < size; o++) {
+                map[i][j].getZombiList().add(new Zombi());
+                zombiTotal++;
+                if (map[i][j].getHp() > 0) {
+                    setProperties(i, j);
+                } else {
+                    setZombieProperties(i, j);
+                }
+            }
+        }
+    }
+
     public void transferZombie(String type, int[][] arr, int k, Zombi temp) {
         int possI = (int) Math.floor(Math.random() * k);
         map[arr[possI][0]][arr[possI][1]].getZombiList().add(temp);
@@ -301,7 +354,7 @@ public class Game implements ActionListener {
     }
 
     public void zombiesMove() {
-        int[][] zombiesNeedToMove = new int[60][60];
+        int[][] zombiesNeedToMove = new int[100][100];
         int k = 0;
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -370,7 +423,7 @@ public class Game implements ActionListener {
 
     public void flowerAttacking(int i, int j) {
         for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
-            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - (int) Math.floor(Math.random() * 6));
+            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - (int) Math.floor(Math.random() * 7));
             if (map[i][j].getZombiList().get(k).getHp() <= 0) {
                 map[i][j].getZombiList().remove(k);
                 zombiTotal--;
