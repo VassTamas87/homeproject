@@ -91,8 +91,10 @@ public class Game implements ActionListener {
                     if (validMove(i, j)) {
                         movePlayer(i, j);
                         movesLeft--;
-                        if (isSound && (movesLeft == 8 || movesLeft == 4)) {
-                            sound5.select();
+                        if (isSound) {
+                            if ((!hard && (movesLeft == 8 || movesLeft == 4)) || (hard && movesLeft == 3)) {
+                                sound5.select();
+                            }
                         }
                         if (movesLeft == 0) {
                             if (hard) {
