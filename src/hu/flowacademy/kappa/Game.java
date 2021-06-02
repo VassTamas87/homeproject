@@ -195,24 +195,15 @@ public class Game implements ActionListener {
     }
 
     public void setMapElements(int i, int j) {
-        if (map[i][j].getType().equals("Sunflower")) {
-            if (map[i][j].getZombiList().size() > 0) {
-                setZombiePic(i, j);
-            } else {
-                buttons[i][j].setIcon(new ImageIcon(images.getImg1()));
-            }
-            buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
-            setProperties(i, j);
+        if (map[i][j].getZombiList().size() > 0) {
+            setZombiePic(i, j);
+        } else if (map[i][j].getType().equals("Sunflower")) {
+            buttons[i][j].setIcon(new ImageIcon(images.getImg1()));
+        } else if (map[i][j].getType().equals("Gatling Pea")) {
+            buttons[i][j].setIcon(new ImageIcon(images.getImg2()));
         }
-        if (map[i][j].getType().equals("Gatling Pea")) {
-            if (map[i][j].getZombiList().size() > 0) {
-                setZombiePic(i, j);
-            } else {
-                buttons[i][j].setIcon(new ImageIcon(images.getImg2()));
-            }
-            buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
-            setProperties(i, j);
-        }
+        buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
+        setProperties(i, j);
     }
 
     public void movePlayer(int i, int j) {
@@ -431,6 +422,9 @@ public class Game implements ActionListener {
                 setMapElements(i, j);
                 setProperties(i, j);
             }
+        }
+        if (map[i][j].getZombiList().size() < 1 && map[i][j].getHp() < 1) {
+            setEmptyField(i, j);
         }
     }
 
