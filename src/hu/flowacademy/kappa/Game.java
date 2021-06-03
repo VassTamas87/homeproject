@@ -30,6 +30,9 @@ public class Game implements ActionListener {
     Sound sound3 = new Sound();
     Sound sound5 = new Sound();
     Sound sound1 = new Sound();
+    JButton powerup = new JButton();
+    JButton powerup2 = new JButton();
+    JButton powerup3 = new JButton();
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         if (sound) {
@@ -62,10 +65,16 @@ public class Game implements ActionListener {
         textfield.setHorizontalAlignment(JLabel.CENTER);
         textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
         textfield.setOpaque(true);
-        title_panel.setLayout(new BorderLayout());
-        title_panel.setBounds(0, 0, 800, 100);
+        title_panel.setLayout(new FlowLayout());
+        title_panel.setBounds(0, 0, 700, 100);
         button_panel.setLayout(new GridLayout(8, 8));
         button_panel.setBackground(new Color(150, 150, 150));
+        powerup.setIcon(new ImageIcon(images.pw1));
+        powerup2.setIcon(new ImageIcon(images.pw2));
+        powerup3.setIcon(new ImageIcon(images.pw3));
+        powerup.setPreferredSize(new Dimension(100, 100));
+        powerup2.setPreferredSize(new Dimension(100, 100));
+        powerup3.setPreferredSize(new Dimension(100, 100));
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -79,8 +88,12 @@ public class Game implements ActionListener {
             setGreenField();
         }
         title_panel.add(textfield);
+        title_panel.add(powerup);
+        title_panel.add(powerup2);
+        title_panel.add(powerup3);
         frame.add(title_panel, BorderLayout.NORTH);
         frame.add(button_panel);
+        title_panel.setBackground(new Color(25, 25, 25));
     }
 
     @Override
@@ -101,7 +114,7 @@ public class Game implements ActionListener {
                                 movesLeft = 6;
                             }
                             if (!hard) {
-                                movesLeft = 12;
+                                movesLeft = 7;
                             }
                             dayCounter++;
                             gettingOlder();
@@ -414,7 +427,7 @@ public class Game implements ActionListener {
 
     public void flowerAttacking(int i, int j) {
         for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
-            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - (int) Math.floor(Math.random() * 7));
+            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - (int) Math.floor(Math.random() * 6) + 1);
             if (map[i][j].getZombiList().get(k).getHp() <= 0) {
                 map[i][j].getZombiList().remove(k);
                 zombiTotal--;
