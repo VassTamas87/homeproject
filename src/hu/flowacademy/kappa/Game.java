@@ -61,7 +61,7 @@ public class Game implements ActionListener {
         frame.setVisible(true);
         textfield.setBackground(new Color(25, 25, 25));
         textfield.setForeground(new Color(25, 255, 0));
-        textfield.setFont(new Font("Ink Free", Font.BOLD, 50));
+        textfield.setFont(new Font("Ink Free", Font.BOLD, 45));
         textfield.setHorizontalAlignment(JLabel.CENTER);
         textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
         textfield.setOpaque(true);
@@ -72,9 +72,15 @@ public class Game implements ActionListener {
         powerup.setIcon(new ImageIcon(images.pw1));
         powerup2.setIcon(new ImageIcon(images.pw2));
         powerup3.setIcon(new ImageIcon(images.pw3));
-        powerup.setPreferredSize(new Dimension(100, 100));
-        powerup2.setPreferredSize(new Dimension(100, 100));
-        powerup3.setPreferredSize(new Dimension(100, 100));
+        powerup.setPreferredSize(new Dimension(200, 85));
+        powerup2.setPreferredSize(new Dimension(200, 85));
+        powerup3.setPreferredSize(new Dimension(200, 85));
+        powerup.setBackground(new Color(25, 25, 25));
+        powerup2.setBackground(new Color(25, 25, 25));
+        powerup3.setBackground(new Color(25, 25, 25));
+        powerup.setBorderPainted(false);
+        powerup2.setBorderPainted(false);
+        powerup3.setBorderPainted(false);
 
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -421,6 +427,9 @@ public class Game implements ActionListener {
                 }
                 buttons[i][j].setEnabled(false);
                 textfield.setText(end);
+                title_panel.remove(powerup);
+                title_panel.remove(powerup2);
+                title_panel.remove(powerup3);
             }
         }
     }
