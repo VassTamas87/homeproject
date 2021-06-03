@@ -106,6 +106,18 @@ public class Sound {
         }
     }
 
+    public void cherry() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/cherrybomb.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
     public void select() {
         int i = (int) Math.floor(Math.random() * 5);
         switch (i) {
