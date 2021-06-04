@@ -35,6 +35,7 @@ public class Game implements ActionListener {
     boolean pw3IsActive;
     Sound sound6 = new Sound();
     JButton[] powers = new JButton[3];
+    Sound sound7 = new Sound();
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         if (sound) {
@@ -152,26 +153,26 @@ public class Game implements ActionListener {
                     if (pwIsActive) {
                         if (isSound) {
                             sound6.cherry();
-                            powers[0].setEnabled(false);
-                            powers[0].setBackground(new Color(25, 25, 25));
-                            setPwIsActive(false);
                         }
+                        powers[0].setEnabled(false);
+                        powers[0].setBackground(new Color(25, 25, 25));
+                        setPwIsActive(false);
                     }
                     if (pw2IsActive) {
                         if (isSound) {
-                            sound6.cherry();
-                            powers[1].setEnabled(false);
-                            powers[1].setBackground(new Color(25, 25, 25));
-                            setPw2IsActive(false);
+                            sound7.floop();
                         }
+                        powers[1].setEnabled(false);
+                        powers[1].setBackground(new Color(25, 25, 25));
+                        setPw2IsActive(false);
                     }
                     if (pw3IsActive) {
                         if (isSound) {
                             sound6.cherry();
-                            powers[2].setEnabled(false);
-                            powers[2].setBackground(new Color(25, 25, 25));
-                            setPw3IsActive(false);
                         }
+                        powers[2].setEnabled(false);
+                        powers[2].setBackground(new Color(25, 25, 25));
+                        setPw3IsActive(false);
                     }
                     if (validMove(i, j)) {
                         movePlayer(i, j);
