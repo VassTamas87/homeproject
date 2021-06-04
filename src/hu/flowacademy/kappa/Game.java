@@ -159,6 +159,7 @@ public class Game implements ActionListener {
                         powers[0].setEnabled(false);
                         powers[0].setBackground(new Color(25, 25, 25));
                         setPwIsActive(false);
+                        checkEndGame();
                     }
                     if (pw2IsActive) {
                         if (isSound) {
@@ -177,6 +178,7 @@ public class Game implements ActionListener {
                         powers[2].setEnabled(false);
                         powers[2].setBackground(new Color(25, 25, 25));
                         setPw3IsActive(false);
+                        checkEndGame();
                     }
                     if (validMove(i, j)) {
                         movePlayer(i, j);
@@ -203,7 +205,7 @@ public class Game implements ActionListener {
                         }
                         setText();
                         checkEndGame();
-                        if (!endGame && isSound && movesLeft == 7) {
+                        if (!endGame && isSound && (movesLeft == 7 || (hard && movesLeft == 6))) {
                             sound1.rooster();
                         }
                     }
