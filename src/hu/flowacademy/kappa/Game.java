@@ -36,6 +36,7 @@ public class Game implements ActionListener {
     Sound sound6 = new Sound();
     JButton[] powers = new JButton[3];
     Sound sound7 = new Sound();
+    boolean endGame;
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
         if (sound) {
@@ -66,7 +67,7 @@ public class Game implements ActionListener {
         textfield.setForeground(new Color(25, 255, 0));
         textfield.setFont(new Font("Ink Free", Font.BOLD, 45));
         textfield.setHorizontalAlignment(JLabel.CENTER);
-        textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
+        setText();
         textfield.setOpaque(true);
         title_panel.setLayout(new FlowLayout());
         title_panel.setBounds(0, 0, 700, 100);
@@ -154,6 +155,7 @@ public class Game implements ActionListener {
                         if (isSound) {
                             sound6.cherry();
                         }
+                        jalapeno(i);
                         powers[0].setEnabled(false);
                         powers[0].setBackground(new Color(25, 25, 25));
                         setPwIsActive(false);
@@ -162,6 +164,7 @@ public class Game implements ActionListener {
                         if (isSound) {
                             sound7.floop();
                         }
+                        pumpkin(i, j);
                         powers[1].setEnabled(false);
                         powers[1].setBackground(new Color(25, 25, 25));
                         setPw2IsActive(false);
@@ -170,6 +173,7 @@ public class Game implements ActionListener {
                         if (isSound) {
                             sound6.cherry();
                         }
+                        cherryBomb(i, j);
                         powers[2].setEnabled(false);
                         powers[2].setBackground(new Color(25, 25, 25));
                         setPw3IsActive(false);
@@ -196,16 +200,20 @@ public class Game implements ActionListener {
                             gettingOlder();
                             zombiesMove();
                             bornZombies();
-                            if (isSound) {
-                                sound1.rooster();
-                            }
                         }
-                        textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
+                        setText();
                         checkEndGame();
+                        if (!endGame && isSound && movesLeft == 7) {
+                            sound1.rooster();
+                        }
                     }
                 }
             }
         }
+    }
+
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
     }
 
     public void setPwIsActive(boolean pwIsActive) {
@@ -242,6 +250,10 @@ public class Game implements ActionListener {
         powers[2].setEnabled(true);
     }
 
+    public void setText() {
+        textfield.setText("Day: " + dayCounter + "     Zombies Alive: " + zombiTotal + "     Moves Left: " + movesLeft);
+    }
+
     public void putFlowers(String type, int limit) {
         int counter = 0;
         while (counter < limit) {
@@ -273,11 +285,11 @@ public class Game implements ActionListener {
 
     public void setProperties(int i, int j) {
         buttons[i][j].setText("<html>" + map[i][j].getType() + "<br/>" + "Hp: " + map[i][j].getHp()
-                + "<br/>" + "Z_num:" + map[i][j].getZombiList().size() + "</html>");
+                + "<br/>" + "Z#: " + map[i][j].getZombiList().size() + "</html>");
     }
 
     public void setZombieProperties(int i, int j) {
-        buttons[i][j].setText("Z_num:" + map[i][j].getZombiList().size());
+        buttons[i][j].setText("Z#: " + map[i][j].getZombiList().size());
     }
 
     public void setGreenField() {
@@ -311,6 +323,44 @@ public class Game implements ActionListener {
         }
         buttons[i][j].setHorizontalAlignment(SwingConstants.LEFT);
         setProperties(i, j);
+    }
+
+    public void kill(int i, int j) {
+        if (map[i][j].getHp() > 0 && map[i][j].getZombiList().size() > 0) {
+            zombiTotal -= map[i][j].getZombiList().size();
+            map[i][j].getZombiList().clear();
+            setMapElements(i, j);
+            setProperties(i, j);
+        } else if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0) {
+            zombiTotal -= map[i][j].getZombiList().size();
+            map[i][j].getZombiList().clear();
+            setEmptyField(i, j);
+        }
+    }
+
+    public void jalapeno(int i) {
+        for (int j = 0; j < map[i].length; j++) {
+            kill(i, j);
+        }
+        setText();
+    }
+
+    public void cherryBomb(int i, int j) {
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if (n >= 0 && n < 8 && m >= 0 && m < 8) {
+                    kill(n, m);
+                }
+            }
+        }
+        setText();
+    }
+
+    public void pumpkin(int i, int j) {
+        if (map[i][j].getHp() > 0) {
+            map[i][j].setHp(map[i][j].getHp() + 10);
+            setProperties(i, j);
+        }
     }
 
     public void movePlayer(int i, int j) {
@@ -493,6 +543,7 @@ public class Game implements ActionListener {
     }
 
     public void end(String end, String color) {
+        setEndGame(true);
         clip.stop();
         if (color.equals("green")) {
             if (isSound) {
@@ -523,8 +574,9 @@ public class Game implements ActionListener {
     }
 
     public void flowerAttacking(int i, int j) {
+        int damage = (int) Math.floor(Math.random() * 6) + 1;
         for (int k = 0; k < map[i][j].getZombiList().size(); k++) {
-            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - (int) Math.floor(Math.random() * 6) + 1);
+            map[i][j].getZombiList().get(k).setHp(map[i][j].getZombiList().get(k).getHp() - damage);
             if (map[i][j].getZombiList().get(k).getHp() <= 0) {
                 map[i][j].getZombiList().remove(k);
                 zombiTotal--;
