@@ -86,10 +86,10 @@ public class Menu extends JPanel implements ActionListener {
                 frame.setVisible(false);
                 if (isSound) {
                     clip.stop();
-                    Game game = new Game(7, 7, true);
+                    Game game = new Game(20, 8, true);
                 } else {
                     clip.stop();
-                    Game game = new Game(7, 7, false);
+                    Game game = new Game(20, 8, false);
                 }
             } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                 e.printStackTrace();
@@ -100,10 +100,10 @@ public class Menu extends JPanel implements ActionListener {
                 frame.setVisible(false);
                 if (isSound) {
                     clip.stop();
-                    Game game = new Game(20, 6, true);
+                    Game game = new Game(30, 6, true);
                 } else {
                     clip.stop();
-                    Game game = new Game(20, 6, false);
+                    Game game = new Game(30, 6, false);
                 }
             } catch (IOException | LineUnavailableException | UnsupportedAudioFileException e) {
                 e.printStackTrace();

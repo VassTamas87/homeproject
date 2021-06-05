@@ -11,6 +11,7 @@ public class Images {
     Image pw1 = ImageIO.read(new FileInputStream("images/jalapeno.png"));
     Image pw2 = ImageIO.read(new FileInputStream("images/pumpkin.png"));
     Image pw3 = ImageIO.read(new FileInputStream("images/cherrybomb.png"));
+    Image pw4 = ImageIO.read(new FileInputStream("images/mine.png"));
     Image img1 = ImageIO.read(new FileInputStream("images/virag.png"));
     Image img2 = ImageIO.read(new FileInputStream("images/harci.png"));
     Image img4 = ImageIO.read(new FileInputStream("images/empty.png"));

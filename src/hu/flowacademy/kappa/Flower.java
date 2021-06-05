@@ -35,8 +35,13 @@ public abstract class Flower {
         this.GATLING = GATLING;
     }
 
+    public String getMINE() {
+        return MINE;
+    }
+
     private String SUNFLOWER = "Sunflower";
     private String GATLING = "Gatling Pea";
+    private String MINE = "mine";
 
     public int getNORMAL() {
         return NORMAL;

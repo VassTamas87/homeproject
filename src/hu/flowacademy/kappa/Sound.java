@@ -130,6 +130,18 @@ public class Sound {
         }
     }
 
+    public void mine() {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/juicy.wav").getAbsoluteFile());
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioInputStream);
+            clip.start();
+        } catch (Exception ex) {
+            System.out.println("Error with playing sound.");
+            ex.printStackTrace();
+        }
+    }
+
     public void select() {
         int i = (int) Math.floor(Math.random() * 5);
         switch (i) {
