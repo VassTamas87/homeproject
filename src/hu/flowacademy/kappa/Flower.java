@@ -8,63 +8,47 @@ public abstract class Flower {
     private int hp;
     private int x;
     private int y;
-    private final int NORMAL = 12;
-    private final int TROPICAL = 18;
-    private List<Zombi> zombiList;
+    private final List<Zombi> zombiList;
+    private boolean isActive;
 
     public Flower(int x, int y) {
         this.age = 0;
         this.x = x;
         this.y = y;
         this.zombiList = new ArrayList<>();
+        this.isActive = false;
+    }
+
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     public String getSUNFLOWER() {
-        return SUNFLOWER;
-    }
-
-    public void setSUNFLOWER(String SUNFLOWER) {
-        this.SUNFLOWER = SUNFLOWER;
+        return "Sunflower";
     }
 
     public String getGATLING() {
-        return GATLING;
+        return "Gatling Pea";
     }
-
-    public void setGATLING(String GATLING) {
-        this.GATLING = GATLING;
-    }
-
-    public String getMINE() {
-        return MINE;
-    }
-
-    private String SUNFLOWER = "Sunflower";
-    private String GATLING = "Gatling Pea";
-    private String MINE = "mine";
 
     public int getNORMAL() {
-        return NORMAL;
+        return 12;
     }
 
     public List<Zombi> getZombiList() {
         return zombiList;
     }
 
-    public void setZombiList(List<Zombi> zombiList) {
-        this.zombiList = zombiList;
-    }
-
     public int getTROPICAL() {
-        return TROPICAL;
+        return 18;
     }
 
     public String getType() {
         return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public int getAge() {
@@ -81,21 +65,5 @@ public abstract class Flower {
 
     public void setHp(int hp) {
         this.hp = hp;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
     }
 }

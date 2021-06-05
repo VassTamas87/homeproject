@@ -11,6 +11,7 @@ public class Tropical extends Flower {
     private int x;
     private int y;
     private List<Zombi> zombiList;
+    private boolean isActive;
 
     public Tropical(int x, int y) {
         super(x, y);
@@ -20,26 +21,15 @@ public class Tropical extends Flower {
         this.x = x;
         this.y = y;
         this.zombiList = new ArrayList<>();
+        this.isActive = super.isActive();
     }
 
-    @Override
-    public int getX() {
-        return x;
+    public boolean isActive() {
+        return isActive;
     }
 
-    @Override
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    @Override
-    public int getY() {
-        return y;
-    }
-
-    @Override
-    public void setY(int y) {
-        this.y = y;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 
     @Override
@@ -48,18 +38,8 @@ public class Tropical extends Flower {
     }
 
     @Override
-    public void setZombiList(List<Zombi> zombiList) {
-        this.zombiList = zombiList;
-    }
-
-    @Override
     public String getType() {
         return type;
-    }
-
-    @Override
-    public void setType(String type) {
-        this.type = type;
     }
 
     @Override
