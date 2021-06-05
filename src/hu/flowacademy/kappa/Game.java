@@ -50,7 +50,7 @@ public class Game implements ActionListener {
             setZombiTotal(30);
         }
         if (!hard) {
-            setZombiTotal(20);
+            setZombiTotal(18);
         }
         if (isSound) {
             clip.open(audioInputStream);
@@ -221,7 +221,7 @@ public class Game implements ActionListener {
                         movePlayer(i, j);
                         movesLeft--;
                         if (isSound) {
-                            if ((!hard && (movesLeft == 5 || movesLeft == 2)) || (hard && movesLeft == 3)) {
+                            if ((!hard && (movesLeft == 6 || movesLeft == 3)) || (hard && movesLeft == 3)) {
                                 sound5.select();
                             }
                         }
@@ -234,11 +234,15 @@ public class Game implements ActionListener {
                             }
                             dayCounter++;
                             if (dayCounter > 1) {
-                                enableButtons();
+                                //enableButtons();
+                                disableButtons();
+                                randomPower();
+                                setPumpkincount(3);
                             }
                             gettingOlder();
                             zombiesMove();
                             bornZombies();
+                            checkMine();
                         }
                         setText();
                         checkEndGame();
@@ -307,6 +311,24 @@ public class Game implements ActionListener {
         powers[1].setEnabled(false);
         powers[2].setEnabled(false);
         powers[3].setEnabled(false);
+    }
+
+    public void randomPower() {
+        int i = (int) Math.floor(Math.random() * 4);
+        switch (i) {
+            case 0:
+                powers[0].setEnabled(true);
+                break;
+            case 1:
+                powers[1].setEnabled(true);
+                break;
+            case 2:
+                powers[2].setEnabled(true);
+                break;
+            case 3:
+                powers[3].setEnabled(true);
+                break;
+        }
     }
 
     public void setText() {
@@ -390,9 +412,14 @@ public class Game implements ActionListener {
             map[i][j].getZombiList().clear();
             setMapElements(i, j);
             setProperties(i, j);
-        } else if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0) {
+        } else if (map[i][j].getHp() <= 0 && map[i][j].getZombiList().size() > 0 && !map[i][j].isActive()) {
             zombiTotal -= map[i][j].getZombiList().size();
             map[i][j].getZombiList().clear();
+            setEmptyField(i, j);
+        } else if (map[i][j].isActive() && map[i][j].getZombiList().size() > 0) {
+            zombiTotal -= map[i][j].getZombiList().size();
+            map[i][j].getZombiList().clear();
+            map[i][j].setActive(false);
             setEmptyField(i, j);
         } else if (map[i][j].isActive()) {
             map[i][j].setActive(false);
@@ -428,6 +455,19 @@ public class Game implements ActionListener {
         buttons[i][j].setIcon(new ImageIcon(images.pw4));
         buttons[i][j].setText("");
         map[i][j].setActive(true);
+    }
+
+    public void checkMine() {
+        for (int i = 0; i < 8; i++) {
+            for (int j = 0; j < 8; j++) {
+                if (map[i][j].isActive() && map[i][j].getZombiList().size() > 0) {
+                    if (isSound) {
+                        sound6.cherry();
+                    }
+                    cherryBomb(i, j);
+                }
+            }
+        }
     }
 
     public void movePlayer(int i, int j) {
@@ -531,13 +571,6 @@ public class Game implements ActionListener {
         }
         if (type.equals("empty")) {
             setZombieProperties(arr[possI][0], arr[possI][1]);
-        }
-        if (map[arr[possI][0]][arr[possI][1]].isActive()) {
-            map[arr[possI][0]][arr[possI][1]].setActive(false);
-            if (isSound) {
-                sound6.cherry();
-            }
-            cherryBomb(arr[possI][0], arr[possI][1]);
         }
     }
 
