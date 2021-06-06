@@ -50,7 +50,7 @@ public class Game implements ActionListener {
             setZombiTotal(30);
         }
         if (!hard) {
-            setZombiTotal(18);
+            setZombiTotal(16);
         }
         if (isSound) {
             clip.open(audioInputStream);
@@ -496,7 +496,8 @@ public class Game implements ActionListener {
         int k = 0;
         for (int n = i - 1; n < i + 2; n++) {
             for (int m = j - 1; m < j + 2; m++) {
-                if ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m]) && (map[n][m].getHp() > 0)) {
+                if (((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m]) && (map[n][m].getHp() > 0)) ||
+                        ((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[n][m].isActive()))) {
                     possibleMoves[k][0] = n;
                     possibleMoves[k][1] = m;
                     k++;

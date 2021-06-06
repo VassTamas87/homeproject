@@ -86,10 +86,10 @@ public class Menu extends JPanel implements ActionListener {
                 frame.setVisible(false);
                 if (isSound) {
                     clip.stop();
-                    Game game = new Game(18, 8, true);
+                    Game game = new Game(16, 8, true);
                 } else {
                     clip.stop();
-                    Game game = new Game(18, 8, false);
+                    Game game = new Game(16, 8, false);
                 }
             } catch (IOException | UnsupportedAudioFileException | LineUnavailableException e) {
                 e.printStackTrace();
