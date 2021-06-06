@@ -26,19 +26,21 @@ public class Game implements ActionListener {
     boolean isSound;
     AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File("sounds/ingame.wav").getAbsoluteFile());
     Clip clip = AudioSystem.getClip();
+    Sound sound1 = new Sound();
     Sound sound2 = new Sound();
     Sound sound3 = new Sound();
+    Sound sound4 = new Sound();
     Sound sound5 = new Sound();
-    Sound sound1 = new Sound();
+    Sound sound6 = new Sound();
+    Sound sound7 = new Sound();
+    Sound sound8 = new Sound();
+    Sound sound9 = new Sound();
     boolean pwIsActive;
     boolean pw2IsActive;
     boolean pw3IsActive;
     boolean pw4IsActive;
-    Sound sound6 = new Sound();
     JButton[] powers = new JButton[4];
-    Sound sound7 = new Sound();
     boolean endGame;
-    Sound sound8 = new Sound();
     int pumpkincount = 3;
 
     Game(int difficulty, int moves, boolean sound) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
@@ -118,12 +120,6 @@ public class Game implements ActionListener {
             if (!pwIsActive) {
                 powers[0].setBackground(Color.RED);
                 setPwIsActive(true);
-                setPw2IsActive(false);
-                powers[1].setBackground(new Color(25, 25, 25));
-                setPw3IsActive(false);
-                powers[2].setBackground(new Color(25, 25, 25));
-                setPw4IsActive(false);
-                powers[3].setBackground(new Color(25, 25, 25));
             } else {
                 powers[0].setBackground(new Color(25, 25, 25));
                 setPwIsActive(false);
@@ -133,12 +129,6 @@ public class Game implements ActionListener {
             if (!pw2IsActive) {
                 powers[1].setBackground(Color.RED);
                 setPw2IsActive(true);
-                setPwIsActive(false);
-                powers[0].setBackground(new Color(25, 25, 25));
-                setPw3IsActive(false);
-                powers[2].setBackground(new Color(25, 25, 25));
-                setPw4IsActive(false);
-                powers[3].setBackground(new Color(25, 25, 25));
             } else {
                 powers[1].setBackground(new Color(25, 25, 25));
                 setPw2IsActive(false);
@@ -148,12 +138,6 @@ public class Game implements ActionListener {
             if (!pw3IsActive) {
                 powers[2].setBackground(Color.RED);
                 setPw3IsActive(true);
-                setPw2IsActive(false);
-                powers[1].setBackground(new Color(25, 25, 25));
-                setPwIsActive(false);
-                powers[0].setBackground(new Color(25, 25, 25));
-                setPw4IsActive(false);
-                powers[3].setBackground(new Color(25, 25, 25));
             } else {
                 powers[2].setBackground(new Color(25, 25, 25));
                 setPw3IsActive(false);
@@ -163,12 +147,6 @@ public class Game implements ActionListener {
             if (!pw4IsActive) {
                 powers[3].setBackground(Color.RED);
                 setPw4IsActive(true);
-                setPw2IsActive(false);
-                powers[1].setBackground(new Color(25, 25, 25));
-                setPw3IsActive(false);
-                powers[2].setBackground(new Color(25, 25, 25));
-                setPwIsActive(false);
-                powers[0].setBackground(new Color(25, 25, 25));
             } else {
                 powers[3].setBackground(new Color(25, 25, 25));
                 setPw4IsActive(false);
@@ -201,7 +179,7 @@ public class Game implements ActionListener {
                         }
                     } else if (pw3IsActive) {
                         if (isSound) {
-                            sound6.cherry();
+                            sound4.cherry2();
                         }
                         cherryBomb(i, j);
                         powers[2].setEnabled(false);
@@ -221,7 +199,7 @@ public class Game implements ActionListener {
                         movePlayer(i, j);
                         movesLeft--;
                         if (isSound) {
-                            if ((!hard && (movesLeft == 6 || movesLeft == 3)) || (hard && movesLeft == 3)) {
+                            if ((!hard && movesLeft == 4) || (hard && movesLeft == 3)) {
                                 sound5.select();
                             }
                         }
@@ -234,7 +212,6 @@ public class Game implements ActionListener {
                             }
                             dayCounter++;
                             if (dayCounter > 1) {
-                                //enableButtons();
                                 disableButtons();
                                 randomPower();
                                 setPumpkincount(3);
@@ -297,13 +274,6 @@ public class Game implements ActionListener {
 
     public void setMovesLeft(int movesLeft) {
         this.movesLeft = movesLeft;
-    }
-
-    public void enableButtons() {
-        powers[0].setEnabled(true);
-        powers[1].setEnabled(true);
-        powers[2].setEnabled(true);
-        powers[3].setEnabled(true);
     }
 
     public void disableButtons() {
@@ -425,7 +395,9 @@ public class Game implements ActionListener {
             map[i][j].setActive(false);
             setEmptyField(i, j);
         }
-        checkEndGame();
+        if (dayCounter > 0) {
+            checkEndGame();
+        }
     }
 
     public void jalapeno(int i) {
@@ -462,7 +434,7 @@ public class Game implements ActionListener {
             for (int j = 0; j < 8; j++) {
                 if (map[i][j].isActive() && map[i][j].getZombiList().size() > 0) {
                     if (isSound) {
-                        sound6.cherry();
+                        sound9.cherry3();
                     }
                     cherryBomb(i, j);
                 }
@@ -494,6 +466,7 @@ public class Game implements ActionListener {
     public void whereTo(int i, int j, Zombi temp) {
         int[][] possibleMoves = new int[8][8];
         int k = 0;
+        int minecounter = 0;
         for (int n = i - 1; n < i + 2; n++) {
             for (int m = j - 1; m < j + 2; m++) {
                 if (((n >= 0 && n < 8 && m >= 0 && m < 8) && (map[i][j] != map[n][m]) && (map[n][m].getHp() > 0)) ||
@@ -504,7 +477,12 @@ public class Game implements ActionListener {
                 }
             }
         }
-        if (k > 0) {
+        for (int x = 0; x < possibleMoves.length; x++) {
+            if (map[possibleMoves[x][0]][possibleMoves[x][1]].isActive()) {
+                minecounter++;
+            }
+        }
+        if (k > 0 && k != minecounter) {
             transferZombie("normal", possibleMoves, k, temp);
         } else {
             moveToEmptyField(i, j, temp);
@@ -677,10 +655,9 @@ public class Game implements ActionListener {
                 }
                 buttons[i][j].setEnabled(false);
                 textfield.setText(end);
-                title_panel.remove(powers[0]);
-                title_panel.remove(powers[1]);
-                title_panel.remove(powers[2]);
-                title_panel.remove(powers[3]);
+                for (int n = 0; n < 4; n++) {
+                    title_panel.remove(powers[n]);
+                }
             }
         }
     }
