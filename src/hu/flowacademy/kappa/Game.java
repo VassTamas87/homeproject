@@ -405,6 +405,47 @@ public class Game implements ActionListener {
             kill(i, j);
         }
         setText();
+        for (int j = 0; j < map[i].length; j++) {
+            buttons[i][j].setIcon(new ImageIcon(images.fire));
+            buttons[i][j].setText("");
+        }
+        setTimeout(() -> setBack(i), 700);
+    }
+
+    public void setTimeout(Runnable runnable, int delay) {
+        new Thread(() -> {
+            try {
+                Thread.sleep(delay);
+                runnable.run();
+            } catch (Exception ignored) {
+            }
+        }).start();
+    }
+
+    public void setBack(int i) {
+        for (int j = 0; j < map[i].length; j++) {
+            if (map[i][j].getHp() > 0) {
+                setMapElements(i, j);
+                setProperties(i, j);
+            } else {
+                setEmptyField(i, j);
+            }
+        }
+    }
+
+    public void setBack2(int i, int j) {
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if (n >= 0 && n < 8 && m >= 0 && m < 8) {
+                    if (map[n][m].getHp() > 0) {
+                        setMapElements(n, m);
+                        setProperties(n, m);
+                    } else {
+                        setEmptyField(n, m);
+                    }
+                }
+            }
+        }
     }
 
     public void cherryBomb(int i, int j) {
@@ -416,6 +457,15 @@ public class Game implements ActionListener {
             }
         }
         setText();
+        for (int n = i - 1; n < i + 2; n++) {
+            for (int m = j - 1; m < j + 2; m++) {
+                if (n >= 0 && n < 8 && m >= 0 && m < 8) {
+                    buttons[n][m].setIcon(new ImageIcon(images.fire));
+                    buttons[n][m].setText("");
+                }
+            }
+        }
+        setTimeout(() -> setBack2(i, j), 700);
     }
 
     public void pumpkin(int i, int j) {
