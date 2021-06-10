@@ -395,9 +395,6 @@ public class Game implements ActionListener {
             map[i][j].setActive(false);
             setEmptyField(i, j);
         }
-        if (dayCounter > 0) {
-            checkEndGame();
-        }
     }
 
     public void jalapeno(int i) {
@@ -410,6 +407,7 @@ public class Game implements ActionListener {
             buttons[i][j].setText("");
         }
         setTimeout(() -> setBack(i), 700);
+        checkEndGame();
     }
 
     public void setTimeout(Runnable runnable, int delay) {
@@ -466,6 +464,7 @@ public class Game implements ActionListener {
             }
         }
         setTimeout(() -> setBack2(i, j), 700);
+        checkEndGame();
     }
 
     public void pumpkin(int i, int j) {
@@ -682,6 +681,7 @@ public class Game implements ActionListener {
     }
 
     public void end(String end, String color) {
+        textfield.setText(end);
         setEndGame(true);
         clip.stop();
         if (color.equals("green")) {
